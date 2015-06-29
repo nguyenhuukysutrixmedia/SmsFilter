@@ -1,0 +1,29 @@
+<resources xmlns:android="http://schemas.android.com/apk/res/android">
+
+
+    <style name="AppBaseTheme" parent="@android:style/Theme.Light">
+    </style>
+
+    <!-- Application theme. -->
+    <style name="AppTheme" parent="AppBaseTheme">
+        
+    </style>
+
+    <!-- TextView base Style -->
+    <style name="TextViewStyle" parent="@android:style/Widget.TextView">
+        <item name="android:textSize">@dimen/text_size_18sp</item>
+        <item name="android:textColor">@android:color/black</item>
+    </style>
+
+    <style name="TextViewStyle_Big" parent="TextViewStyle">
+        <item name="android:textSize">22sp</item>
+    </style>
+    
+    <style name="TextViewStyleSmallSize1" parent="TextViewStyle">
+        <item name="android:textSize">@dimen/text_size_16sp</item>
+    </style>
+
+    <style name="TextViewStyleSmallSize2" parent="TextViewStyle">
+        <item name="android:textSize">@dimen/text_size_14sp</item>
+    </style>
+</resources>

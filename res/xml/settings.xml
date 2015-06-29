@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+
+    <PreferenceCategory android:title="General Settings" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="full_sms"
+            android:summary="Show full SMS message"
+            android:title="Full SMS" />
+
+        <ListPreference
+            android:defaultValue="3"
+            android:entries="@array/sort_opts_arr"
+            android:entryValues="@array/val_arr"
+            android:key="default_sort"
+            android:summary="Date Descending"
+            android:title="Sort Order" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="time_format"
+            android:summary="Use 24-hour format"
+            android:title="Time Format" />
+    </PreferenceCategory>
+    <PreferenceCategory android:title="Advanced Settings" >
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="confirm_pref"
+            android:summary="Show confirmation dialog"
+            android:title="Ask for Confirmation" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="use_default"
+            android:summary="Application for sending SMS"
+            android:title="Use System App" />
+    </PreferenceCategory>
+
+</PreferenceScreen>

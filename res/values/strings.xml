@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">SMS Filter</string>
+    <string name="hello_world">Hello world!</string>
+    <string name="title_activity_splash">SplashActivity</string>
+    <string name="title_activity_spam">Spam box</string>
+
+    <!-- action -->
+    <string name="action_done">Done</string>
+    <string name="action_spam_box">Spam box</string>
+    <string name="action_delete_sms">Delete sms</string>
+    <string name="action_mark_spam">Mark as spam sms</string>
+    <string name="action_mark_not_spam">Mark NOT spam sms</string>
+    <!--  -->
+    <string name="action_all">Select all</string>
+    <string name="action_delete">Delete</string>
+    <string name="action_spam">Spam</string>
+    <string name="action_not_spam">Not spam</string>
+
+    <!--  -->
+    <string name="mess_press_again_to_exit">Double press back to exit</string>
+
+    <!-- sms item -->
+    <string name="phone_number">012345345</string>
+    <string name="content">Ta la nhen la nhen giang to  bjnasf maskmf oas fas f</string>
+    <string name="date">09/08</string>
+
+    <!-- option button -->
+    <string name="delete">Delete</string>
+    <string name="spam">Spam</string>
+    <string name="not_spam">Not spam</string>
+    <string name="title_activity_smsdetail">SMSDetailActivity</string>
+
+</resources>
