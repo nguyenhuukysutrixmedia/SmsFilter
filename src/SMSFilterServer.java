@@ -7,7 +7,6 @@ import java.awt.event.WindowEvent;
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.List;
 
 import javax.swing.BorderFactory;
 import javax.swing.JButton;
