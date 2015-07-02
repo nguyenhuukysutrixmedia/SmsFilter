@@ -33,10 +33,15 @@
     <string name="spam">Spam</string>
     <string name="not_spam">Not spam</string>
     <string name="title_activity_smsdetail">SMSDetailActivity</string>
-    
+
     <!-- setting -->
     <string name="setting_new_sms_nofitication">"New SMS notification"</string>
     <string name="setting_update_sms_keyword">Update SMS keyword</string>
-    
+    <string name="updating">"Updating..."</string>
+    <string name="ok">"OK"</string>
+    <string name="update_success">Update successful.</string>
+     <string name="update_fail_time_out">Update fail. Connect to server time out.</string>
+    <string name="update_fail_no_network">Update fail. No network.</string>
+    <string name="update_fail_problem_on_server">Update fail. Having a unknown problem on server.</string>
 
 </resources>

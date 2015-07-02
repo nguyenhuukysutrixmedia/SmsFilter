@@ -18,6 +18,7 @@ public class UpdateKeywordAsyncTask extends AsyncTask<Object, Integer, Integer> 
 		mActivity = activity;
 		mProgressDialog = progressDialog;
 	}
+
 	@Override
 	protected void onPreExecute() {
 		if (mProgressDialog != null && !mProgressDialog.isShowing())
@@ -36,7 +37,11 @@ public class UpdateKeywordAsyncTask extends AsyncTask<Object, Integer, Integer> 
 			String response = makeRequest(params);
 			// parse response
 			if (response != null && !response.isEmpty()) {
-				parseResponse(response);
+				if ("TIME_OUT".equals(response)) {
+					mApiResponseCode = ApiResponseCode.TIME_OUT;
+				} else {
+					parseResponse(response);
+				}
 			} else {
 				mApiResponseCode = ApiResponseCode.FAIL;
 			}
@@ -51,6 +56,7 @@ public class UpdateKeywordAsyncTask extends AsyncTask<Object, Integer, Integer> 
 		// TODO Auto-generated method stub
 
 	}
+
 	private String makeRequest(Object[] params) {
 		return ApiRequest.getDataFromServer();
 	}
@@ -61,7 +67,7 @@ public class UpdateKeywordAsyncTask extends AsyncTask<Object, Integer, Integer> 
 		if (mProgressDialog != null)
 			mProgressDialog.dismiss();
 
-		((SettingActivity)mActivity).updateDone(mApiResponseCode);
+		((SettingActivity) mActivity).updateDone(mApiResponseCode);
 
 		super.onPostExecute(result);
 	}

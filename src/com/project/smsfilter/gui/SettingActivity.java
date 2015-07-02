@@ -1,6 +1,8 @@
 package com.project.smsfilter.gui;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
 import android.app.ProgressDialog;
 import android.os.Bundle;
 import android.view.View;
@@ -18,6 +20,7 @@ public class SettingActivity extends Activity {
 	private Switch notifiSwitch;
 	private ProgressDialog mProgressDialog;
 	private MyToast mToast;
+	private AlertDialog dialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -30,7 +33,12 @@ public class SettingActivity extends Activity {
 		//
 		mProgressDialog = new ProgressDialog(this);
 		mProgressDialog.setCancelable(false);
-		mProgressDialog.setMessage("Updating.....");
+		mProgressDialog.setMessage(getString(R.string.updating));
+
+		//
+		Builder builder = new Builder(this);
+		dialog = builder.setCancelable(true).setTitle(getString(R.string.setting_update_sms_keyword))
+				.setPositiveButton(R.string.ok, null).create();
 
 		notifiSwitch = (Switch) findViewById(R.id.swichNotifi);
 		notifiSwitch.setChecked(MyPreferenceUtils.isNewSMSNtification(this));
@@ -51,12 +59,21 @@ public class SettingActivity extends Activity {
 	public void updateDone(ApiResponseCode apiResponseCode) {
 
 		if (apiResponseCode == ApiResponseCode.OK) {
-			mToast.showToast("Update successful");
+			dialog.setMessage(getString(R.string.update_success));
+			dialog.show();
+			// mToast.showToast(getString(R.string.update_success));
 		} else {
 			if (apiResponseCode == ApiResponseCode.NO_NETWORK) {
-				mToast.showToast("Update fail. No network.");
+				dialog.setMessage(getString(R.string.update_fail_no_network));
+				dialog.show();
+				// mToast.showToast(getString(R.string.update_fail_no_network));
+			} else if (apiResponseCode == ApiResponseCode.TIME_OUT) {
+				dialog.setMessage(getString(R.string.update_fail_time_out));
+				dialog.show();
 			} else {
-				mToast.showToast("Update fail. Having a unknow problem on server.");
+				dialog.setMessage(getString(R.string.update_fail_problem_on_server));
+				dialog.show();
+				// mToast.showToast(getString(R.string.update_fail_problem_on_server));
 			}
 		}
 	}

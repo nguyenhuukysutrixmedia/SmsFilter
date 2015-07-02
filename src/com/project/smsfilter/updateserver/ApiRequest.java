@@ -5,8 +5,10 @@ import java.io.InputStreamReader;
 import java.net.URI;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.HttpStatus;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.apache.http.impl.client.DefaultHttpClient;
 import org.apache.http.params.BasicHttpParams;
 import org.apache.http.params.HttpConnectionParams;
@@ -57,21 +59,25 @@ public class ApiRequest {
 			httpGet.setURI(new URI(GET_URL));
 
 			HttpResponse response = getHttpClient().execute(httpGet);
-			// if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
-			in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
-			String line = in.readLine();
-			while (line != null) {
-				responseString += line;
-				line = in.readLine();
+			if (response.getStatusLine().getStatusCode() == HttpStatus.SC_OK) {
+				in = new BufferedReader(new InputStreamReader(response.getEntity().getContent()));
+				String line = in.readLine();
+				while (line != null) {
+					responseString += line;
+					line = in.readLine();
+				}
+			} else if (response.getStatusLine().getStatusCode() == HttpStatus.SC_REQUEST_TIMEOUT) {
+				responseString = "TIME_OUT";
 			}
-			// }
-
 			MyLog.iLog(String.format("Total time: %d ms - Response %s - CODE: %d: %s", System.currentTimeMillis()
 					- startTime, GET_URL, response.getStatusLine().getStatusCode(), responseString));
 		} catch (Exception e) {
 			responseString = "";
-			MyLog.eLog(String.format("Total time: %d ms - Error in http connection ", System.currentTimeMillis()
+			MyLog.eLog(String.format("Total time: %d ms - Error in http connection %s ", System.currentTimeMillis()
 					- startTime, e.toString()));
+			if (e instanceof ConnectTimeoutException) {
+				responseString = "TIME_OUT";
+			}
 		}
 
 		return responseString;

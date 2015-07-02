@@ -17,7 +17,7 @@ import com.project.smsfilter.model.SMSModel;
 
 public class CsvHelper {
 
-	public static String FILE_NAME = "SMS.txt";
+	public static String FILE_NAME = "SMS.csv";
 
 	public static void copyTemplateSmsData(Context context) {
 		long startTime = System.currentTimeMillis();
