@@ -127,6 +127,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 
 		if (isSpamBox) {
 			menu.findItem(R.id.action_spam_box).setVisible(false);
+			menu.findItem(R.id.action_setting).setVisible(false);
 		}
 		menu.findItem(R.id.action_delete_sms).setVisible(false);
 		menu.findItem(R.id.action_mark_as_spam).setVisible(false);
@@ -145,10 +146,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		// Handle item selection
+		Intent intent;
 		switch (item.getItemId()) {
 		case R.id.action_spam_box:
-			Intent intent = new Intent(mContext, MainActivity.class);
+			intent = new Intent(mContext, MainActivity.class);
 			intent.putExtra(TYPE_BOX, true);
+			startActivity(intent);
+			return true;
+		case R.id.action_setting:
+			intent = new Intent(mContext, SettingActivity.class);
 			startActivity(intent);
 			return true;
 		case android.R.id.home:

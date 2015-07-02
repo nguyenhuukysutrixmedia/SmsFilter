@@ -2,18 +2,12 @@ package com.project.smsfilter.gui;
 
 import java.util.ArrayList;
 
-import android.annotation.SuppressLint;
-import android.annotation.TargetApi;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.Telephony;
-import android.view.View;
-import android.widget.Button;
 
 import com.project.smsfilter.R;
 import com.project.smsfilter.BayesClassifier.BayesClassifierHelper;
@@ -79,7 +73,7 @@ public class SplashActivity extends Activity {
 				if (listSmsModels.size() <= 0)
 					CreateTestData.createTestSms(mContext);
 				for (SmsTestModel smsModel : listSmsModels) {
-					//MyLog.iLog("SMS:: " + smsModel.toString());
+					// MyLog.iLog("SMS:: " + smsModel.toString());
 					mSmsTestTableHelper.insert(smsModel);
 				}
 
@@ -116,10 +110,14 @@ public class SplashActivity extends Activity {
 		MyLog.iLog("Splash time: " + (System.currentTimeMillis() - startTime));
 	}
 
+	/**
+	 * 
+	 */
 	private void initFirstTimeRunApp() {
-		// if (!MyPreferenceUtils.isInited(mContext)) {
-		CsvHelper.copyTemplateSmsData(mContext);
-		// }
+		if (!MyPreferenceUtils.isInited(mContext)) {
+			CsvHelper.copyTemplateSmsData(mContext);
+			MyPreferenceUtils.setInited(mContext, true);
+		}
 	}
 
 	@Override

@@ -21,6 +21,8 @@ public class MyNotificationHelper {
 	// a GCM message.
 	public static void sendSynchonizeNotification(Context context, SmsTestModel smsTestModel) {
 
+		Boolean isNotifi = MyPreferenceUtils.isNewSMSNtification(context);
+
 		String title = String.format("Received new message");
 		String phoneName = smsTestModel.getPhoneNumber();
 		if (smsTestModel.getPhoneName() != null && !smsTestModel.getPhoneName().isEmpty())
@@ -31,9 +33,11 @@ public class MyNotificationHelper {
 		mBuilder.setSmallIcon(R.drawable.notifi_icon);
 		mBuilder.setContentTitle(title);
 		mBuilder.setContentText(message);
-		mBuilder.setVibrate(new long[] { 300, 300, 300, 300, 300 });
-		Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-		mBuilder.setSound(alarmSound);
+		if (isNotifi) {
+			mBuilder.setVibrate(new long[] { 300, 300, 300, 300, 300 });
+			Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+			mBuilder.setSound(alarmSound);
+		}
 		mBuilder.setAutoCancel(true);
 
 		// Creates an explicit intent for an Activity in your app

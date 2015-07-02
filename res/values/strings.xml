@@ -5,10 +5,12 @@
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_spam">Spam box</string>
+    <string name="title_activity_setting">Setting</string>
 
     <!-- action -->
     <string name="action_done">Done</string>
     <string name="action_spam_box">Spam box</string>
+    <string name="action_setting">Setting</string>
     <string name="action_delete_sms">Delete sms</string>
     <string name="action_mark_spam">Mark as spam sms</string>
     <string name="action_mark_not_spam">Mark NOT spam sms</string>
@@ -31,5 +33,10 @@
     <string name="spam">Spam</string>
     <string name="not_spam">Not spam</string>
     <string name="title_activity_smsdetail">SMSDetailActivity</string>
+    
+    <!-- setting -->
+    <string name="setting_new_sms_nofitication">"New SMS notification"</string>
+    <string name="setting_update_sms_keyword">Update SMS keyword</string>
+    
 
 </resources>

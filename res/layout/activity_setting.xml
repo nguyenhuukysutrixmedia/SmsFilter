@@ -1,0 +1,29 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <Switch
+        android:id="@+id/swichNotifi"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:padding="24dp"
+        android:textOn="On"
+        android:onClick="onNotificationClick"
+        android:textOff="Off"
+        android:text="@string/setting_new_sms_nofitication"
+        android:textSize="@dimen/text_size_18sp" />
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:onClick="onUpdateClick"
+        android:clickable="true"
+        android:gravity="center_vertical"
+        android:padding="24dp"
+        android:text="@string/setting_update_sms_keyword"
+        android:textSize="@dimen/text_size_18sp" />
+
+</LinearLayout>

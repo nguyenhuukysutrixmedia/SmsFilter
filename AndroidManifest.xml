@@ -41,30 +41,27 @@
         <activity
             android:name=".gui.MainActivity"
             android:configChanges="locale|keyboard|keyboardHidden|orientation|screenLayout|screenSize|layoutDirection|navigation"
+            android:icon="@drawable/app_icon"
             android:label="@string/app_name"
             android:screenOrientation="user"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
 
-        <!-- BroadcastReceiver that listens for incoming SMS messages --><receiver
+        <!-- BroadcastReceiver that listens for incoming SMS messages -->
+        <receiver
             android:name=".background.IncomingSmsReceiver"
-            android:exported="true"
             android:permission="android.permission.BROADCAST_SMS" >
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
             </intent-filter>
         </receiver>
+        <receiver android:name=".background.IncomingSmsReceiver" >
+            <intent-filter android:priority="1000" >
+                <action android:name="android.provider.Telephony.SMS_RECEIVED" />
+            </intent-filter>
+        </receiver>
 
-        <!-- <receiver -->
-        <!-- android:name=".background.IncomingSmsReceiver" -->
-        <!-- android:priority="1000" -->
-        <!-- android:exported="true" > -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.provider.Telephony.SMS_RECEIVED" /> -->
-        <!-- </intent-filter> -->
-        <!-- </receiver> -->
-
-<!-- BroadcastReceiver that listens for incoming MMS messages -->
+        <!-- BroadcastReceiver that listens for incoming MMS messages -->
         <receiver
             android:name=".background.MmsReceiver"
             android:permission="android.permission.BROADCAST_WAP_PUSH" >
@@ -113,18 +110,24 @@
         <activity
             android:name=".gui.SpamActivity"
             android:label="@string/title_activity_spam"
-            android:parentActivityName="com.project.smsfilter.gui.MainActivity" >
+            android:parentActivityName=".gui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.project.smsfilter.gui.MainActivity" />
         </activity>
         <activity
-            android:name="com.project.smsfilter.gui.SMSDetailActivity"
+            android:name=".gui.SMSDetailActivity"
             android:label="@string/title_activity_smsdetail"
-            android:parentActivityName="com.project.smsfilter.gui.MainActivity" >
+            android:parentActivityName=".gui.MainActivity" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.project.smsfilter.gui.MainActivity" />
+        </activity>
+        <activity
+            android:name="com.project.smsfilter.gui.SettingActivity"
+            android:icon="@drawable/setting_icon"
+            android:label="@string/title_activity_setting"
+            android:parentActivityName=".gui.MainActivity" >
         </activity>
     </application>
 

@@ -9,6 +9,7 @@ public class MyPreferenceUtils {
 
 	public static final String KEY_FIRST_TIME = "KEY_FIRST_TIME";
 	public static final String KEY_UP_TO_DATE = "KEY_UP_TO_DATE";
+	public static final String KEY_NEW_SMS_NOTIFICATION = "KEY_NEW_SMS_NOTIFICATION";
 
 	public static final String KEY_Classifier = "Classifier";
 
@@ -118,5 +119,13 @@ public class MyPreferenceUtils {
 
 	public static void setDataUpToDate(Context context, boolean isUpToDate) {
 		saveBoolean(context,KEY_UP_TO_DATE, isUpToDate);
+	}
+	
+	public static void setNewSMSNtification(Context context, boolean isNotifi) {
+		saveBoolean(context, KEY_NEW_SMS_NOTIFICATION, isNotifi);
+	}
+	
+	public static boolean isNewSMSNtification(Context context) {
+		return getBoolean(context, KEY_NEW_SMS_NOTIFICATION, true);
 	}
 }

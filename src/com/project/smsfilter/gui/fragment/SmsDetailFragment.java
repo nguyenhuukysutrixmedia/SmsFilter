@@ -211,6 +211,7 @@ public class SmsDetailFragment extends BaseFragment
 	public void onPrepareOptionsMenu(Menu menu) {
 
 		menu.findItem(R.id.action_spam_box).setVisible(false);
+		menu.findItem(R.id.action_setting).setVisible(false);
 		menu.findItem(R.id.action_delete_sms).setVisible(true);
 		if (isSpamBox) {
 			menu.findItem(R.id.action_mark_as_not_spam).setVisible(true);

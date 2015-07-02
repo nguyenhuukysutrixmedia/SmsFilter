@@ -25,23 +25,26 @@ public class IncomingSmsReceiver extends BroadcastReceiver {
 
 				// Retrieves a map of extended data from the intent.
 				final Bundle bundle = intent.getExtras();
-				final Object[] pdusObj = (Object[]) bundle.get("pdus");
-				for (int i = 0; i < pdusObj.length; i++) {
+				if (bundle != null) {
+					final Object[] pdusObj = (Object[]) bundle.get("pdus");
+					for (int i = 0; i < pdusObj.length; i++) {
 
-					SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
+						SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
 
-					String phoneNumber = currentMessage.getDisplayOriginatingAddress();
-					String message = currentMessage.getDisplayMessageBody();
-					
-					ContentValues values = new ContentValues();
-					values.put("address", phoneNumber);
-					values.put("body", message);
-					context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-					
-					new NewSmsTask(context, phoneNumber, message).execute();
-					
-					MyLog.iLog("IncomingSmsReceiver senderNum: " + phoneNumber + "; message: " + message);
-				} // end for loop
+						String phoneNumber = currentMessage.getDisplayOriginatingAddress();
+						String message = currentMessage.getDisplayMessageBody();
+
+						ContentValues values = new ContentValues();
+						values.put("address", phoneNumber);
+						values.put("body", message);
+						context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+
+						new NewSmsTask(context, phoneNumber, message).execute();
+
+						MyLog.iLog("IncomingSmsReceiver senderNum: " + phoneNumber + "; message: " + message);
+					} // end for loop
+					abortBroadcast();
+				}
 			} // bundle is null
 
 			// this.abortBroadcast();
