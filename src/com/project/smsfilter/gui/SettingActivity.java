@@ -41,12 +41,12 @@ public class SettingActivity extends Activity {
 				.setPositiveButton(R.string.ok, null).create();
 
 		notifiSwitch = (Switch) findViewById(R.id.swichNotifi);
-		notifiSwitch.setChecked(MyPreferenceUtils.isNewSMSNtification(this));
+		notifiSwitch.setChecked(MyPreferenceUtils.isNewSMSNotification(this));
 	}
 
 	public void onNotificationClick(View v) {
 		MyLog.iLog("Notification clicked: " + notifiSwitch.isChecked());
-		MyPreferenceUtils.setNewSMSNtification(this, notifiSwitch.isChecked());
+		MyPreferenceUtils.setNewSMSNotification(this, notifiSwitch.isChecked());
 	}
 
 	public void onUpdateClick(View v) {

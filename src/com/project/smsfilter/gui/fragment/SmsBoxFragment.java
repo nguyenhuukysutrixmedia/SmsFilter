@@ -96,8 +96,8 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 			@Override
 			public void onReceive(Context context, Intent intent) {
 
-				MyLog.iLog("New SMS - SmsBoxFragment: " + intent.getStringExtra("phoneNumber") + "-"
-						+ intent.getStringExtra("message"));
+				// MyLog.iLog("New SMS - SmsBoxFragment: " + intent.getStringExtra("phoneNumber") + "-"
+				// + intent.getStringExtra("message"));
 
 				try {
 					loadListView();

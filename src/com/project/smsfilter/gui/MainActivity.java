@@ -72,7 +72,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 		transaction.replace(R.id.fragment_container, fragment);
 		transaction.addToBackStack(fragment.toString());
 
-		transaction.commit();
+		transaction.commitAllowingStateLoss();
 	}
 
 	@Override

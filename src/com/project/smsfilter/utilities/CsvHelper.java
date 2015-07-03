@@ -36,7 +36,6 @@ public class CsvHelper {
 				out.flush();
 				out.close();
 				out = null;
-				MyPreferenceUtils.setInited(context,true);
 			} catch (Exception e) {
 				e.printStackTrace();
 				MyLog.eLog("copyTemplateSmsData error: " + e);

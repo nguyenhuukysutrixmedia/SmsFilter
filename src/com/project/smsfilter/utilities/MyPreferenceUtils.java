@@ -2,11 +2,13 @@ package com.project.smsfilter.utilities;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.PackageInfo;
 
 public class MyPreferenceUtils {
 
 	private static final String PREF_NAME = "SMS_FILTER";
 
+	public static final String KEY_PREVIOUS_VERSION = "KEY_PREVIOUS_VERSION";
 	public static final String KEY_FIRST_TIME = "KEY_FIRST_TIME";
 	public static final String KEY_UP_TO_DATE = "KEY_UP_TO_DATE";
 	public static final String KEY_NEW_SMS_NOTIFICATION = "KEY_NEW_SMS_NOTIFICATION";
@@ -106,26 +108,42 @@ public class MyPreferenceUtils {
 	}
 
 	public static boolean isInited(Context context) {
-		return getBoolean(context, KEY_FIRST_TIME, false);
+		
+		int saveVersion = getInt(context, KEY_PREVIOUS_VERSION, 0);
+		try {
+			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			int currentVersion = pInfo.versionCode;
+			return saveVersion >= currentVersion;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return false;
+		}
 	}
 
-	public static void setInited(Context context, boolean  isInited) {
-		saveBoolean(context, KEY_FIRST_TIME, isInited);
+	public static void setInited(Context context) {
+		try {
+			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
+			int currentVersion = pInfo.versionCode;
+			saveInt(context, KEY_PREVIOUS_VERSION, currentVersion);
+		} catch (Exception e) {
+			e.printStackTrace();
+			saveInt(context, KEY_PREVIOUS_VERSION, 0);
+		}
 	}
-	
+
 	public static boolean isDataUpToDate(Context context) {
 		return getBoolean(context, KEY_UP_TO_DATE, false);
 	}
 
 	public static void setDataUpToDate(Context context, boolean isUpToDate) {
-		saveBoolean(context,KEY_UP_TO_DATE, isUpToDate);
+		saveBoolean(context, KEY_UP_TO_DATE, isUpToDate);
 	}
-	
-	public static void setNewSMSNtification(Context context, boolean isNotifi) {
+
+	public static void setNewSMSNotification(Context context, boolean isNotifi) {
 		saveBoolean(context, KEY_NEW_SMS_NOTIFICATION, isNotifi);
 	}
-	
-	public static boolean isNewSMSNtification(Context context) {
+
+	public static boolean isNewSMSNotification(Context context) {
 		return getBoolean(context, KEY_NEW_SMS_NOTIFICATION, true);
 	}
 }

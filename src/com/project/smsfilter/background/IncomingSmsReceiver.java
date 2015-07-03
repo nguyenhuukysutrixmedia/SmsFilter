@@ -20,30 +20,42 @@ public class IncomingSmsReceiver extends BroadcastReceiver {
 	public void onReceive(Context context, Intent intent) {
 		long startTime = System.currentTimeMillis();
 		try {
-			if (intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION)
-					|| intent.getAction().equals(Telephony.Sms.Intents.SMS_DELIVER_ACTION)) {
+
+			boolean isReceivedAction = intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
+			boolean isDeliverAction = intent.getAction().equals(Telephony.Sms.Intents.SMS_DELIVER_ACTION);
+
+			if (isReceivedAction || isDeliverAction) {
 
 				// Retrieves a map of extended data from the intent.
 				final Bundle bundle = intent.getExtras();
 				if (bundle != null) {
+					
 					final Object[] pdusObj = (Object[]) bundle.get("pdus");
 					for (int i = 0; i < pdusObj.length; i++) {
 
 						SmsMessage currentMessage = SmsMessage.createFromPdu((byte[]) pdusObj[i]);
 
-						String phoneNumber = currentMessage.getDisplayOriginatingAddress();
+						String phoneName = currentMessage.getDisplayOriginatingAddress();
+						// String phoneNumber = currentMessage.getOriginatingAddress();
 						String message = currentMessage.getDisplayMessageBody();
+						// long createTime = currentMessage.getTimestampMillis();
 
 						ContentValues values = new ContentValues();
-						values.put("address", phoneNumber);
+						values.put("address", phoneName);
 						values.put("body", message);
-						context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
-
-						new NewSmsTask(context, phoneNumber, message).execute();
-
-						MyLog.iLog("IncomingSmsReceiver senderNum: " + phoneNumber + "; message: " + message);
+						
+						Uri uri = null ;
+						if(isDeliverAction){
+							
+						}else{
+							abortBroadcast();
+							uri = context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
+						}
+						
+						new NewSmsTask(context, currentMessage, uri).execute();
+						
+						MyLog.iLog("IncomingSmsReceiver senderNum: " + phoneName + "; message: " + message);
 					} // end for loop
-					abortBroadcast();
 				}
 			} // bundle is null
 

@@ -21,7 +21,7 @@ public class MyNotificationHelper {
 	// a GCM message.
 	public static void sendSynchonizeNotification(Context context, SmsTestModel smsTestModel) {
 
-		Boolean isNotifi = MyPreferenceUtils.isNewSMSNtification(context);
+		Boolean isNotifi = MyPreferenceUtils.isNewSMSNotification(context);
 
 		String title = String.format("Received new message");
 		String phoneName = smsTestModel.getPhoneNumber();

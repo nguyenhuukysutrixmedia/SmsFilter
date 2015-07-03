@@ -96,7 +96,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 		mSqlWhereClause = SmsTestDefine.COL_IS_SPAM + " = 1";
 		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
 		mSqlGroupClause = SmsTestDefine.COL_PHONE_NUMBER;
-		mSqlHavingClause =  " max(" + SmsTestDefine.COL_CREATE_TIME + ")";
+		mSqlHavingClause = " max(" + SmsTestDefine.COL_CREATE_TIME + ")";
 		return super.getByQuery();
 	}
 
@@ -105,7 +105,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 		mSqlWhereClause = SmsTestDefine.COL_IS_SPAM + " = 0 ";
 		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
 		mSqlGroupClause = SmsTestDefine.COL_PHONE_NUMBER;
-		mSqlHavingClause =  " max(" + SmsTestDefine.COL_CREATE_TIME + ")";
+		mSqlHavingClause = " max(" + SmsTestDefine.COL_CREATE_TIME + ")";
 		return super.getByQuery();
 	}
 
@@ -127,19 +127,28 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 	public SmsTestModel getObject(String uid) {
 
-		mSqlWhereClause = String.format(SmsTestDefine.COL_UID + " = %d" , uid);
+		mSqlWhereClause = String.format(SmsTestDefine.COL_UID + " = %d", uid);
 		return super.getObject(uid);
 	}
-	
+
 	public SmsTestModel getSmsByContent(String content) {
-		
+
 		mSqlHavingClause = null;
-		mSqlWhereClause = String.format(SmsTestDefine.COL_CONTENT + " = '%s'" , content);
+		mSqlWhereClause = String.format(SmsTestDefine.COL_CONTENT + " = '%s'", content);
 		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
 		ArrayList<SmsTestModel> list = getByQuery();
-		if(list.size()>0)
+		if (list.size() > 0)
 			return list.get(0);
 		return null;
+	}
+
+	public boolean checkExist(SmsTestModel model) {
+
+		mSqlWhereClause = String.format(" %s = '%s' and %s = '%s' and %s = '%d' ", SmsTestDefine.COL_PHONE_NUMBER,
+				model.getPhoneNumber(), SmsDefine.COL_CONTENT, model.getContent(), SmsDefine.COL_CREATE_TIME,
+				model.getCreateTime());
+		ArrayList<SmsTestModel> list = getByQuery();
+		return list.size() > 0;
 	}
 
 	// public ArrayList<SmsTestModel> getListSpamGroupByPhoneNumber() {

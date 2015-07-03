@@ -23,7 +23,7 @@ import com.project.smsfilter.utilities.MySMSUtils;
 
 public class SplashActivity extends Activity {
 
-	private final int SPLASH_TIME_OUT = 1000;
+	private final int SPLASH_TIME_OUT = 500;
 
 	private long startTime;
 	private SmsTestTableHelper mSmsTestTableHelper;
@@ -45,17 +45,23 @@ public class SplashActivity extends Activity {
 	}
 
 	private void splashProcess() {
-		initFirstTimeRunApp();
 
-		loadData();
+		if (!MyPreferenceUtils.isInited(mContext)) {
+			loadData();
+		}else{
+			nextScreen();
+		}
 	}
 
 	private void loadData() {
 
 		new AsyncTask<String, Integer, String>() {
+			
 			@Override
 			protected String doInBackground(String... params) {
 
+				CsvHelper.copyTemplateSmsData(mContext);
+				
 				mSmsTableHelper = new SmsTableHelper(mContext);
 				mSmsTestTableHelper = new SmsTestTableHelper(mContext);
 
@@ -84,12 +90,14 @@ public class SplashActivity extends Activity {
 			}
 
 			protected void onPostExecute(String result) {
-				loadDataDone();
+				MyPreferenceUtils.setInited(mContext);
+				nextScreen();
 			};
 		}.execute("");
 	}
 
-	private void loadDataDone() {
+	private void nextScreen() {
+		
 		final long deltaTime = System.currentTimeMillis() - startTime;
 		long delayMillis = 0;
 		if (deltaTime < SPLASH_TIME_OUT) {
@@ -108,17 +116,6 @@ public class SplashActivity extends Activity {
 		startActivity(intent);
 		finish();
 		MyLog.iLog("Splash time: " + (System.currentTimeMillis() - startTime));
-	}
-
-	/**
-	 * 
-	 */
-	private void initFirstTimeRunApp() {
-		if (!MyPreferenceUtils.isInited(mContext)) {
-			MyLog.iLog("initFirstTimeRunApp");
-			CsvHelper.copyTemplateSmsData(mContext);
-			MyPreferenceUtils.setInited(mContext, true);
-		}
 	}
 
 	@Override
