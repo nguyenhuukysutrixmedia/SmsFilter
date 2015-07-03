@@ -115,6 +115,7 @@ public class SplashActivity extends Activity {
 	 */
 	private void initFirstTimeRunApp() {
 		if (!MyPreferenceUtils.isInited(mContext)) {
+			MyLog.iLog("initFirstTimeRunApp");
 			CsvHelper.copyTemplateSmsData(mContext);
 			MyPreferenceUtils.setInited(mContext, true);
 		}
