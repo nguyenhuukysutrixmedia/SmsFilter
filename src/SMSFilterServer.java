@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.swing.BorderFactory;
+import javax.swing.Icon;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -86,7 +87,7 @@ public class SMSFilterServer {
 					// This is where a real application would open the file.
 
 					textArea.setText(readFile(selectedFile.getAbsolutePath()));
-					
+
 					uploadButton.setEnabled(true);
 					System.out.append("Opening: " + selectedFile.getName());
 				} else {
@@ -111,13 +112,14 @@ public class SMSFilterServer {
 		uploadButton.setPreferredSize(new Dimension(100, 50));
 		uploadButton.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				
+
 				if (selectedFile != null) {
 					uploadButton.setEnabled(false);
 					DeleteFileTask deleteFileTask = new DeleteFileTask();
-					deleteFileTask.execute();	
-				}else{
-					JOptionPane.showMessageDialog(mainFrame, "Please select sms data file first!","Error",JOptionPane.OK_OPTION );
+					deleteFileTask.execute();
+				} else {
+					JOptionPane.showMessageDialog(mainFrame, "Please select sms data file first!", "Error",
+							JOptionPane.OK_OPTION);
 				}
 			}
 		});
@@ -140,10 +142,12 @@ public class SMSFilterServer {
 
 	class PostFileTask extends SwingWorker<String, String> {
 
+		String response;
+
 		@Override
 		public String doInBackground() {
 			String bodyContent = readFile(selectedFile.getAbsolutePath());
-			String response = ApiHelper.postFile(bodyContent);
+			response = ApiHelper.postFile(bodyContent);
 
 			return response;
 		}
@@ -151,6 +155,10 @@ public class SMSFilterServer {
 		@Override
 		protected void done() {
 			uploadButton.setEnabled(true);
+
+			if (response != null && response.trim().endsWith(ApiHelper.FILE_NAME)) {
+				JOptionPane.showMessageDialog(mainFrame, "Data was uploaded successful!");
+			}
 		}
 	}
 

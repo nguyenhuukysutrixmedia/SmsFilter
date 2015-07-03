@@ -17,7 +17,7 @@ public class ApiHelper {
 
 	private static final int TIME_OUT = 10 * 1000;
 
-	private static final String FILE_NAME = "sms_data.csv";
+	public static final String FILE_NAME = "sms_data.csv";
 	private static final String BASE_URL = "http://demo.janeto.com:21000/huuky/files/";
 
 	private static final String POST_URL = BASE_URL + FILE_NAME;
