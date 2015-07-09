@@ -29,7 +29,7 @@ public class IncomingSmsReceiver extends BroadcastReceiver {
 				// Retrieves a map of extended data from the intent.
 				final Bundle bundle = intent.getExtras();
 				if (bundle != null) {
-					
+
 					final Object[] pdusObj = (Object[]) bundle.get("pdus");
 					for (int i = 0; i < pdusObj.length; i++) {
 
@@ -43,17 +43,17 @@ public class IncomingSmsReceiver extends BroadcastReceiver {
 						ContentValues values = new ContentValues();
 						values.put("address", phoneName);
 						values.put("body", message);
-						
-						Uri uri = null ;
-						if(isDeliverAction){
-							
-						}else{
-							abortBroadcast();
+
+						Uri uri = null;
+						if (isDeliverAction) {
+
+						} else {
+							this.abortBroadcast();
 							uri = context.getContentResolver().insert(Uri.parse("content://sms/inbox"), values);
 						}
-						
+
 						new NewSmsTask(context, currentMessage, uri).execute();
-						
+
 						MyLog.iLog("IncomingSmsReceiver senderNum: " + phoneName + "; message: " + message);
 					} // end for loop
 				}
