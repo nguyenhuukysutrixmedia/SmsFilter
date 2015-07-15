@@ -6,6 +6,7 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="title_activity_spam">Spam box</string>
     <string name="title_activity_setting">Setting</string>
+    <string name="title_activity_new_sms">New message</string>
 
     <!-- action -->
     <string name="action_done">Done</string>
@@ -40,7 +41,7 @@
     <string name="updating">"Updating..."</string>
     <string name="ok">"OK"</string>
     <string name="update_success">Update successful.</string>
-     <string name="update_fail_time_out">Update fail. Connect to server time out.</string>
+    <string name="update_fail_time_out">Update fail. Connect to server time out.</string>
     <string name="update_fail_no_network">Update fail. No network.</string>
     <string name="update_fail_problem_on_server">Update fail. Having a unknown problem on server.</string>
 

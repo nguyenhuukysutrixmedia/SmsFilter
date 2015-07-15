@@ -19,8 +19,8 @@ import android.widget.TextView;
 import com.project.smsfilter.R;
 import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyConstants;
-import com.project.smsfilter.utilities.MySMSUtils;
 
 public class SmsListviewArrayAdapter extends ArrayAdapter<SmsItemModel> {
 

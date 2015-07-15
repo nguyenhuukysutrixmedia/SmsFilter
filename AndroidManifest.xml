@@ -20,8 +20,8 @@
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.READ_CONTACTS" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
 
     <application
         android:allowBackup="true"
@@ -48,6 +48,50 @@
             android:screenOrientation="user"
             android:windowSoftInputMode="stateHidden|adjustResize" >
         </activity>
+        <!--  -->
+        <activity
+            android:name=".gui.SpamActivity"
+            android:label="@string/title_activity_spam"
+            android:parentActivityName="com.project.smsfilter.gui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.project.smsfilter.gui.MainActivity" />
+        </activity>
+        <!--  -->
+        <activity
+            android:name=".gui.SMSDetailActivity"
+            android:label="@string/title_activity_smsdetail"
+            android:parentActivityName="com.project.smsfilter.gui.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="com.project.smsfilter.gui.MainActivity" />
+        </activity>
+        <!--  -->
+        <activity
+            android:name=".gui.SettingActivity"
+            android:icon="@drawable/setting_icon"
+            android:label="@string/title_activity_setting"
+            android:parentActivityName="com.project.smsfilter.gui.MainActivity" >
+        </activity>
+
+        <!-- Activity that allows the user to send new SMS/MMS messages -->
+        <activity
+            android:name="com.project.smsfilter.gui.NewSmsActivity"
+            android:label="@string/title_activity_new_sms"
+            android:parentActivityName="com.project.smsfilter.gui.MainActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.SEND" />
+                <action android:name="android.intent.action.SENDTO" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+
+                <data android:scheme="sms" />
+                <data android:scheme="smsto" />
+                <data android:scheme="mms" />
+                <data android:scheme="mmsto" />
+            </intent-filter>
+        </activity>
 
         <!-- BroadcastReceiver that listens for incoming SMS messages -->
         <receiver
@@ -57,6 +101,7 @@
                 <action android:name="android.provider.Telephony.SMS_DELIVER" />
             </intent-filter>
         </receiver>
+        <!--  -->
         <receiver android:name=".background.IncomingSmsReceiver" >
             <intent-filter android:priority="1000" >
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
@@ -73,22 +118,6 @@
                 <data android:mimeType="application/vnd.wap.mms-message" />
             </intent-filter>
         </receiver>
-
-        <!-- Activity that allows the user to send new SMS/MMS messages -->
-        <activity android:name=".ComposeSmsActivity" >
-            <intent-filter>
-                <action android:name="android.intent.action.SEND" />
-                <action android:name="android.intent.action.SENDTO" />
-
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-
-                <data android:scheme="sms" />
-                <data android:scheme="smsto" />
-                <data android:scheme="mms" />
-                <data android:scheme="mmsto" />
-            </intent-filter>
-        </activity>
 
         <!-- Service that delivers messages from the phone "quick response" -->
         <service
@@ -108,29 +137,6 @@
         </service>
 
         <uses-library android:name="android.test.runner" />
-
-        <activity
-            android:name=".gui.SpamActivity"
-            android:label="@string/title_activity_spam"
-            android:parentActivityName=".gui.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.project.smsfilter.gui.MainActivity" />
-        </activity>
-        <activity
-            android:name=".gui.SMSDetailActivity"
-            android:label="@string/title_activity_smsdetail"
-            android:parentActivityName=".gui.MainActivity" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.project.smsfilter.gui.MainActivity" />
-        </activity>
-        <activity
-            android:name="com.project.smsfilter.gui.SettingActivity"
-            android:icon="@drawable/setting_icon"
-            android:label="@string/title_activity_setting"
-            android:parentActivityName=".gui.MainActivity" >
-        </activity>
     </application>
 
     <instrumentation

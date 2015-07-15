@@ -10,9 +10,9 @@ import com.project.smsfilter.database.SmsTestTableHelper;
 import com.project.smsfilter.gui.SplashActivity;
 import com.project.smsfilter.model.SMSModel;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.CsvHelper;
 import com.project.smsfilter.utilities.MyPreferenceUtils;
-import com.project.smsfilter.utilities.MySMSUtils;
 
 public class DatabaseTest extends AndroidTestCase {
 

@@ -1,4 +1,4 @@
-package com.project.smsfilter.utilities;
+package com.project.smsfilter.sms;
 
 import java.io.ByteArrayInputStream;
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.utilities.MyLog;
 
 public class MySMSUtils {
 
@@ -37,11 +38,11 @@ public class MySMSUtils {
 
 				// { "_id", "thread_id", "address", "person", "date", "body" }
 				SmsTestModel sms = new SmsTestModel();
-				sms.setContent(c.getString(c.getColumnIndexOrThrow("body")));
-				sms.setPhoneNumber(c.getString(c.getColumnIndexOrThrow("address")));
+				sms.setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
+				sms.setPhoneNumber(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS)));
 				sms.setPhoneName(getContactName(activity, sms.getPhoneNumber()));
-				sms.setId(c.getLong(c.getColumnIndexOrThrow("_id")));
-				sms.setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow("date"))));
+				sms.setId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn._ID)));
+				sms.setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.DATE))));
 
 				listSMS.add(sms);
 				c.moveToNext();
@@ -56,7 +57,7 @@ public class MySMSUtils {
 	public static String getContactName(Context context, String phoneNumber) {
 		ContentResolver cr = context.getContentResolver();
 		Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-		Cursor cursor = cr.query(uri, new String[] { PhoneLookup.DISPLAY_NAME }, null, null, null);
+		Cursor cursor = cr.query(uri, new String[]{PhoneLookup.DISPLAY_NAME}, null, null, null);
 		if (cursor == null) {
 			return null;
 		}
@@ -73,7 +74,7 @@ public class MySMSUtils {
 	public static Drawable openPhoto(Context context, long contactId) {
 		Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
 		Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-		Cursor cursor = context.getContentResolver().query(photoUri, new String[] { Contacts.Photo.PHOTO }, null, null,
+		Cursor cursor = context.getContentResolver().query(photoUri, new String[]{Contacts.Photo.PHOTO}, null, null,
 				null);
 		if (cursor == null) {
 			return null;
@@ -95,8 +96,8 @@ public class MySMSUtils {
 
 	public static Bitmap fetchThumbnail(Context context, String phoneNumber) {
 
-		final String[] PHOTO_ID_PROJECTION = new String[] { ContactsContract.Contacts.PHOTO_ID };
-		final String[] PHOTO_BITMAP_PROJECTION = new String[] { ContactsContract.CommonDataKinds.Photo.PHOTO };
+		final String[] PHOTO_ID_PROJECTION = new String[]{ContactsContract.Contacts.PHOTO_ID};
+		final String[] PHOTO_BITMAP_PROJECTION = new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO};
 
 		ContentResolver contentResolver = context.getContentResolver();
 

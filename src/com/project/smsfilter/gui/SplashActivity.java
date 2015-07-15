@@ -15,11 +15,11 @@ import com.project.smsfilter.database.SmsTableHelper;
 import com.project.smsfilter.database.SmsTestTableHelper;
 import com.project.smsfilter.model.SMSModel;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.unittest.CreateTestData;
 import com.project.smsfilter.utilities.CsvHelper;
 import com.project.smsfilter.utilities.MyLog;
 import com.project.smsfilter.utilities.MyPreferenceUtils;
-import com.project.smsfilter.utilities.MySMSUtils;
 
 public class SplashActivity extends Activity {
 

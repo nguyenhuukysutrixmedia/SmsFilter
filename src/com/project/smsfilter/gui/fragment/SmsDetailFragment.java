@@ -30,8 +30,8 @@ import com.project.smsfilter.gui.adapter.SmsDetailListviewArrayAdapter;
 import com.project.smsfilter.model.SMSModel;
 import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyLog;
-import com.project.smsfilter.utilities.MySMSUtils;
 import com.project.smsfilter.utilities.MyUtils;
 
 public class SmsDetailFragment extends BaseFragment
