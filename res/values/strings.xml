@@ -45,4 +45,7 @@
     <string name="update_fail_no_network">Update fail. No network.</string>
     <string name="update_fail_problem_on_server">Update fail. Having a unknown problem on server.</string>
 
+    <!-- new massage activity -->
+    <string name="send">Send</string>
+
 </resources>
