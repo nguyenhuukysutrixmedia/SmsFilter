@@ -48,20 +48,31 @@ public class SplashActivity extends Activity {
 
 		if (!MyPreferenceUtils.isInited(mContext)) {
 			loadData();
-		}else{
+		} else {
 			nextScreen();
+		}
+
+		checkLastUpdateKeyWord();
+	}
+
+	/**
+	 * 
+	 */
+	private void checkLastUpdateKeyWord() {
+		if (MyPreferenceUtils.getLastUpdateKeyword(mContext) == 0) {
+			MyPreferenceUtils.setLastUpdateKeyword(mContext, System.currentTimeMillis());
 		}
 	}
 
 	private void loadData() {
 
 		new AsyncTask<String, Integer, String>() {
-			
+
 			@Override
 			protected String doInBackground(String... params) {
 
 				CsvHelper.copyTemplateSmsData(mContext);
-				
+
 				mSmsTableHelper = new SmsTableHelper(mContext);
 				mSmsTestTableHelper = new SmsTestTableHelper(mContext);
 
@@ -97,7 +108,7 @@ public class SplashActivity extends Activity {
 	}
 
 	private void nextScreen() {
-		
+
 		final long deltaTime = System.currentTimeMillis() - startTime;
 		long delayMillis = 0;
 		if (deltaTime < SPLASH_TIME_OUT) {

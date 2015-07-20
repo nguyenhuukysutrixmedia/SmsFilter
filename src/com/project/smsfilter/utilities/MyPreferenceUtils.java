@@ -12,6 +12,7 @@ public class MyPreferenceUtils {
 	public static final String KEY_FIRST_TIME = "KEY_FIRST_TIME";
 	public static final String KEY_UP_TO_DATE = "KEY_UP_TO_DATE";
 	public static final String KEY_NEW_SMS_NOTIFICATION = "KEY_NEW_SMS_NOTIFICATION";
+	public static final String KEY_LAST_UPDATE_KEYWORK = "KEY_LAST_UPDATE_KEYWORK";
 
 	public static final String KEY_Classifier = "Classifier";
 
@@ -108,7 +109,7 @@ public class MyPreferenceUtils {
 	}
 
 	public static boolean isInited(Context context) {
-		
+
 		int saveVersion = getInt(context, KEY_PREVIOUS_VERSION, 0);
 		try {
 			PackageInfo pInfo = context.getPackageManager().getPackageInfo(context.getPackageName(), 0);
@@ -145,5 +146,13 @@ public class MyPreferenceUtils {
 
 	public static boolean isNewSMSNotification(Context context) {
 		return getBoolean(context, KEY_NEW_SMS_NOTIFICATION, true);
+	}
+
+	public static long getLastUpdateKeyword(Context context) {
+		return getLong(context, KEY_LAST_UPDATE_KEYWORK, 0);
+	}
+
+	public static void setLastUpdateKeyword(Context context, long time) {
+		saveLong(context, KEY_LAST_UPDATE_KEYWORK, time);
 	}
 }

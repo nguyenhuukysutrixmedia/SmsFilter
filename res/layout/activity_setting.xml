@@ -9,21 +9,40 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
-        android:padding="24dp"
-        android:textOn="On"
         android:onClick="onNotificationClick"
-        android:textOff="Off"
+        android:padding="24dp"
         android:text="@string/setting_new_sms_nofitication"
+        android:textOff="Off"
+        android:textOn="On"
         android:textSize="@dimen/text_size_18sp" />
 
-    <Button
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:onClick="onUpdateClick"
+        android:background="@android:drawable/btn_default"
         android:clickable="true"
-        android:gravity="center_vertical"
-        android:padding="24dp"
-        android:text="@string/setting_update_sms_keyword"
-        android:textSize="@dimen/text_size_18sp" />
+        android:onClick="onUpdateClick"
+        android:orientation="vertical"
+        android:paddingBottom="16dp"
+        android:paddingLeft="24dp"
+        android:paddingTop="16dp" >
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_vertical"
+            android:text="@string/setting_update_sms_keyword"
+            android:textSize="@dimen/text_size_18sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tv_setting_activity_last_update"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:gravity="center_vertical"
+            android:textSize="@dimen/text_size_14sp" />
+
+    </LinearLayout>
 
 </LinearLayout>

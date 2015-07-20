@@ -38,6 +38,7 @@
     <!-- setting -->
     <string name="setting_new_sms_nofitication">"New SMS notification"</string>
     <string name="setting_update_sms_keyword">Update SMS keyword</string>
+    <string name="setting_last_update_sms_keyword">"Last updated "</string>
     <string name="updating">"Updating..."</string>
     <string name="ok">"OK"</string>
     <string name="update_success">Update successful.</string>
@@ -47,5 +48,6 @@
 
     <!-- new massage activity -->
     <string name="send">Send</string>
+    <string name="btn_contact">"+"</string>
 
 </resources>
