@@ -9,11 +9,16 @@
     <!-- android:visible="false"/> -->
 
     <item
+        android:id="@+id/action_new_sms"
+        android:icon="@drawable/add_icon"
+        android:showAsAction="always"
+        android:title="@string/action_new_sms"
+        android:visible="false"/>
+    <item
         android:id="@+id/action_spam_box"
         android:showAsAction="withText"
         android:title="@string/action_spam_box"
         android:visible="true"/>
-    
     <item
         android:id="@+id/action_setting"
         android:showAsAction="withText"

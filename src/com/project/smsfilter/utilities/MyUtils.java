@@ -3,6 +3,8 @@ package com.project.smsfilter.utilities;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -67,7 +69,6 @@ public class MyUtils {
 		}
 	}
 
-	
 	/**
 	 * Checks if the device has Internet connection.
 	 * 
@@ -92,5 +93,18 @@ public class MyUtils {
 		}
 
 		return false;
+	}
+
+	/**
+	 * 
+	 * @param sPhoneNumber
+	 * @return
+	 */
+	public static boolean validatePhoneNumber(String sPhoneNumber) {
+
+		String patternString = "[-+\\d() ]{8,16}";
+		Pattern pattern = Pattern.compile(patternString);
+		Matcher matcher = pattern.matcher(sPhoneNumber);
+		return matcher.matches();
 	}
 }

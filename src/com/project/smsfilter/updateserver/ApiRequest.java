@@ -28,7 +28,7 @@ public class ApiRequest {
 	/*
 	 *
 	 */
-	private static final int TIME_OUT = 15 * 1000; // 15 seconds
+	private static final int TIME_OUT = 30 * 1000; // 15 seconds
 
 	private static HttpClient getHttpClient() {
 		final HttpParams httpParams = new BasicHttpParams();

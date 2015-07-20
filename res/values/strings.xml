@@ -10,6 +10,7 @@
 
     <!-- action -->
     <string name="action_done">Done</string>
+    <string name="action_new_sms">New SMS</string>
     <string name="action_spam_box">Spam box</string>
     <string name="action_setting">Setting</string>
     <string name="action_delete_sms">Delete sms</string>
@@ -36,7 +37,7 @@
     <string name="title_activity_smsdetail">SMSDetailActivity</string>
 
     <!-- setting -->
-    <string name="setting_new_sms_nofitication">"New SMS notification"</string>
+    <string name="setting_new_sms_nofitication">"Play sound &amp; vibrate when having new SMS"</string>
     <string name="setting_update_sms_keyword">Update SMS keyword</string>
     <string name="setting_last_update_sms_keyword">"Last updated "</string>
     <string name="updating">"Updating..."</string>
@@ -49,5 +50,9 @@
     <!-- new massage activity -->
     <string name="send">Send</string>
     <string name="btn_contact">"+"</string>
+    <string name="phone_number_wrong_format">"The phone number is wrong format"</string>
+    <string name="message_content_empty">"Enter content of message please!"</string>
+    <string name="message_sent">"Message sent."</string>
+    <string name="message_sent_fail">"Message sent failly. Please try again."</string>
 
 </resources>

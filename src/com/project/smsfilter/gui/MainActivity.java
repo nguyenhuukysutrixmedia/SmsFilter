@@ -128,7 +128,11 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 		if (isSpamBox) {
 			menu.findItem(R.id.action_spam_box).setVisible(false);
 			menu.findItem(R.id.action_setting).setVisible(false);
+			menu.findItem(R.id.action_new_sms).setVisible(false);
+		} else {
+			menu.findItem(R.id.action_new_sms).setVisible(true);
 		}
+
 		menu.findItem(R.id.action_delete_sms).setVisible(false);
 		menu.findItem(R.id.action_mark_as_spam).setVisible(false);
 		menu.findItem(R.id.action_mark_as_not_spam).setVisible(false);
@@ -148,20 +152,27 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 		// Handle item selection
 		Intent intent;
 		switch (item.getItemId()) {
-		case R.id.action_spam_box:
-			intent = new Intent(mContext, MainActivity.class);
-			intent.putExtra(TYPE_BOX, true);
-			startActivity(intent);
-			return true;
-		case R.id.action_setting:
-			intent = new Intent(mContext, SettingActivity.class);
-			startActivity(intent);
-			return true;
-		case android.R.id.home:
-			onBackPressed();
-			return true;
-		default:
-			return super.onOptionsItemSelected(item);
+			case R.id.action_spam_box :
+				intent = new Intent(mContext, MainActivity.class);
+				intent.putExtra(TYPE_BOX, true);
+				startActivity(intent);
+				return true;
+				
+			case R.id.action_setting :
+				intent = new Intent(mContext, SettingActivity.class);
+				startActivity(intent);
+				return true;
+				
+			case R.id.action_new_sms :
+				intent = new Intent(mContext, NewSmsActivity.class);
+				startActivity(intent);
+				return true;
+				
+			case android.R.id.home :
+				onBackPressed();
+				return true;
+			default :
+				return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -169,12 +180,12 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 	public void onClick(View v) {
 
 		switch (v.getId()) {
-		case R.id.btn_delete:
+			case R.id.btn_delete :
 
-			break;
+				break;
 
-		default:
-			break;
+			default :
+				break;
 		}
 	}
 
