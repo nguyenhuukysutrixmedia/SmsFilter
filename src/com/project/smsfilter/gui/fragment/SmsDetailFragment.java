@@ -210,6 +210,7 @@ public class SmsDetailFragment extends BaseFragment
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
 
+		menu.findItem(R.id.action_new_sms).setVisible(false);
 		menu.findItem(R.id.action_spam_box).setVisible(false);
 		menu.findItem(R.id.action_setting).setVisible(false);
 		menu.findItem(R.id.action_delete_sms).setVisible(true);

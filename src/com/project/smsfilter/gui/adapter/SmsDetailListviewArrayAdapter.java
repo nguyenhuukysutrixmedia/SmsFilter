@@ -15,8 +15,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.project.smsfilter.R;
+import com.project.smsfilter.database.DatabaseDefinition.SmsDefine;
 import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.Defines;
 import com.project.smsfilter.utilities.MyConstants;
 
 public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> {
@@ -66,12 +68,21 @@ public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> {
 				if (itemModel.isChecked()) {
 					viewHolder.layoutRootItem.setBackgroundResource(R.drawable.shape_sms_detail_selected);
 				} else {
-					viewHolder.layoutRootItem.setBackgroundResource(R.drawable.shape_sms_detail_not_selected);
+					if (itemModel.getSmsModel().getType().equals(Defines.SmsType.IN)) {
+						viewHolder.layoutRootItem.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_inbox);
+					} else {
+						viewHolder.layoutRootItem
+								.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_outbox);
+					}
 				}
 				// viewHolder.layoutCheckBox.setVisibility(View.VISIBLE);
 				// viewHolder.cbSelection.setChecked(itemModel.isChecked());
 			} else {
-				viewHolder.layoutRootItem.setBackgroundResource(R.drawable.shape_sms_detail_not_selected);
+				if (itemModel.getSmsModel().getType().equals(Defines.SmsType.IN)) {
+					viewHolder.layoutRootItem.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_inbox);
+				} else {
+					viewHolder.layoutRootItem.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_outbox);
+				}
 				// viewHolder.layoutCheckBox.setVisibility(View.GONE);
 				// viewHolder.cbSelection.setChecked(false);
 			}
