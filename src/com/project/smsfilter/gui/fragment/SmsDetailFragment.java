@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.LinearLayout;
 import android.widget.ListView;
 
 import com.project.smsfilter.R;
@@ -54,6 +55,9 @@ public class SmsDetailFragment extends BaseFragment
 	private ListView lvSms;
 	private SmsDetailListviewArrayAdapter mAdapter;
 
+	//
+	private LinearLayout layoutEditor;
+	
 	private ActionMode mActionMode;
 
 	public SmsDetailFragment(String phoneNumber, String phoneName, boolean isSpamBox) {
@@ -148,10 +152,10 @@ public class SmsDetailFragment extends BaseFragment
 		loadListView();
 
 		//
-		// btnDelete = (LinearLayout) v.findViewById(R.id.btn_delete);
-		// btnMove = (LinearLayout) v.findViewById(R.id.btn_move);
-		// btnDelete.setOnClickListener(this);
-		// btnMove.setOnClickListener(this);
+		layoutEditor = (LinearLayout)v.findViewById(R.id.layout_editor);
+		if(isSpamBox){
+			layoutEditor.setVisibility(View.GONE);
+		}
 
 		//
 		// layoutButton = (LinearLayout) v.findViewById(R.id.layout_button);
