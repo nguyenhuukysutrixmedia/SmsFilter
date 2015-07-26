@@ -30,19 +30,19 @@
             android:id="@+id/layout_editor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/main_light_1"
-            android:orientation="horizontal"
-            android:padding="8dp" >
+            android:background="@color/gray_1"
+            android:orientation="horizontal" >
 
             <EditText
                 android:id="@+id/edt_editor"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
+                android:layout_margin="8dp"
                 android:layout_weight="1"
                 android:background="@android:color/white"
                 android:gravity="top|left"
-                android:lines="4"
-                android:maxLines="6"
+                android:maxLines="4"
+                android:minLines="2"
                 android:padding="8dp"
                 android:textSize="@dimen/text_size_20sp" />
 
@@ -50,19 +50,15 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                android:paddingLeft="4dp" >
-
-                <View
-                    android:layout_width="0dp"
-                    android:layout_height="0dp"
-                    android:layout_weight="1" />
+                android:paddingBottom="4dp" >
 
                 <TextView
-                    android:id="@+id/tv_new_sms_activity_text_number"
+                    android:id="@+id/tv_text_number"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="0dp"
                     android:layout_gravity="center_horizontal"
-                    android:layout_marginBottom="4dp"
+                    android:layout_weight="1"
+                    android:gravity="bottom"
                     android:scrollbars="vertical"
                     android:text="0"
                     android:textSize="@dimen/text_size_20sp" />
@@ -71,6 +67,7 @@
                     android:id="@+id/btn_send"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:scaleType="fitCenter"
                     android:text="@string/send"
                     android:textAllCaps="false"
                     android:textSize="@dimen/text_size_20sp" />

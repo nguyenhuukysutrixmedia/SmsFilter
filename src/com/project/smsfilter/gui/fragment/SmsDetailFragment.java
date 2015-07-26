@@ -2,13 +2,19 @@ package com.project.smsfilter.gui.fragment;
 
 import java.util.ArrayList;
 
+import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.SmsManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.ActionMode;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -20,8 +26,12 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.AdapterView.OnItemLongClickListener;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.project.smsfilter.R;
 import com.project.smsfilter.database.SmsTableHelper;
@@ -33,14 +43,11 @@ import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
 import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyLog;
+import com.project.smsfilter.utilities.MyToast;
 import com.project.smsfilter.utilities.MyUtils;
 
-public class SmsDetailFragment extends BaseFragment
-		implements
-			OnClickListener,
-			OnItemLongClickListener,
-			OnItemClickListener,
-			ConstantDefines {
+public class SmsDetailFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener,
+		OnItemClickListener, ConstantDefines {
 
 	private String mPhoneNumber;
 	private String mPhoneName;
@@ -51,13 +58,17 @@ public class SmsDetailFragment extends BaseFragment
 	private SmsTableHelper mSmsTableHelper;
 	private int optionSeleted = OPTION_NONE;
 
+	private EditText edtEditor;
+	private TextView tvTextNumber;
+	private Button btnSend;
+	private MyToast myToast;
 	//
 	private ListView lvSms;
 	private SmsDetailListviewArrayAdapter mAdapter;
 
 	//
 	private LinearLayout layoutEditor;
-	
+
 	private ActionMode mActionMode;
 
 	public SmsDetailFragment(String phoneNumber, String phoneName, boolean isSpamBox) {
@@ -152,8 +163,8 @@ public class SmsDetailFragment extends BaseFragment
 		loadListView();
 
 		//
-		layoutEditor = (LinearLayout)v.findViewById(R.id.layout_editor);
-		if(isSpamBox){
+		layoutEditor = (LinearLayout) v.findViewById(R.id.layout_editor);
+		if (isSpamBox) {
 			layoutEditor.setVisibility(View.GONE);
 		}
 
@@ -173,6 +184,47 @@ public class SmsDetailFragment extends BaseFragment
 
 			}
 		};
+
+		//
+		myToast = new MyToast(mContext);
+
+		//
+		btnSend = (Button) v.findViewById(R.id.btn_send);
+		btnSend.setOnClickListener(this);
+
+		//
+		tvTextNumber = (TextView) v.findViewById(R.id.tv_text_number);
+
+		//
+		edtEditor = (EditText) v.findViewById(R.id.edt_editor);
+		edtEditor.addTextChangedListener(new TextWatcher() {
+			@Override
+			public void onTextChanged(CharSequence s, int start, int before, int count) {
+				tvTextNumber.setText(edtEditor.getText().toString().length() + "");
+				toggleSendButton();
+			}
+
+			@Override
+			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+			}
+
+			@Override
+			public void afterTextChanged(Editable s) {
+			}
+		});
+
+		toggleSendButton();
+	}
+
+	/**
+	 * 
+	 */
+	private void toggleSendButton() {
+		if (edtEditor.getText().toString().isEmpty()) {
+			btnSend.setEnabled(false);
+		} else {
+			btnSend.setEnabled(true);
+		}
 	}
 
 	private void loadListView() {
@@ -202,12 +254,83 @@ public class SmsDetailFragment extends BaseFragment
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.btn_delete :
+		case R.id.btn_send:
+			sendMessage();
+			break;
 
-				break;
+		default:
+			break;
+		}
+	}
 
-			default :
-				break;
+	/**
+	 * 
+	 */
+	private void sendMessage() {
+		MyUtils.requestKeyBoard(mContext, edtEditor, false);
+		String phoneNo = mPhoneNumber;
+		String msg = edtEditor.getText().toString();
+
+		try {
+
+			String SENT = "sent";
+			String DELIVERED = "delivered";
+
+			Intent sentIntent = new Intent(SENT);
+			/* Create Pending Intents */
+			PendingIntent sentPI = PendingIntent.getBroadcast(getActivity(), 0, sentIntent,
+					PendingIntent.FLAG_UPDATE_CURRENT);
+
+			Intent deliveryIntent = new Intent(DELIVERED);
+
+			PendingIntent deliverPI = PendingIntent.getBroadcast(getActivity(), 0, deliveryIntent,
+					PendingIntent.FLAG_UPDATE_CURRENT);
+			/* Register for SMS send action */
+			getActivity().registerReceiver(new BroadcastReceiver() {
+
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					String result = "";
+
+					switch (getResultCode()) {
+
+					case Activity.RESULT_OK:
+						result = "Transmission successful";
+						break;
+					case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+						result = "Transmission failed";
+						break;
+					case SmsManager.RESULT_ERROR_RADIO_OFF:
+						result = "Radio off";
+						break;
+					case SmsManager.RESULT_ERROR_NULL_PDU:
+						result = "No PDU defined";
+						break;
+					case SmsManager.RESULT_ERROR_NO_SERVICE:
+						result = "No service";
+						break;
+					}
+
+					myToast.showToast(result);
+				}
+
+			}, new IntentFilter(SENT));
+			/* Register for Delivery event */
+			getActivity().registerReceiver(new BroadcastReceiver() {
+
+				@Override
+				public void onReceive(Context context, Intent intent) {
+					myToast.showToast("Deliverd");
+				}
+
+			}, new IntentFilter(DELIVERED));
+
+			/* Send SMS */
+			SmsManager smsManager = SmsManager.getDefault();
+			smsManager.sendTextMessage(phoneNo, null, msg, sentPI, deliverPI);
+		} catch (Exception ex) {
+			myToast.showToast(ex.getMessage().toString());
+			ex.printStackTrace();
 		}
 	}
 
@@ -234,27 +357,27 @@ public class SmsDetailFragment extends BaseFragment
 		MyLog.iLog("onOptionsItemSelected: " + item);
 
 		switch (item.getItemId()) {
-			case android.R.id.home :
-				getActivity().onBackPressed();
-				return true;
+		case android.R.id.home:
+			getActivity().onBackPressed();
+			return true;
 
-			case R.id.action_delete_sms :
-				optionSeleted = OPTION_DELETE;
-				makeDeleteSms();
-				return true;
+		case R.id.action_delete_sms:
+			optionSeleted = OPTION_DELETE;
+			makeDeleteSms();
+			return true;
 
-			case R.id.action_mark_as_not_spam :
-				optionSeleted = OPTION_MARK_NOT_SPAM;
-				makeMarkNotSpamSms();
-				return true;
+		case R.id.action_mark_as_not_spam:
+			optionSeleted = OPTION_MARK_NOT_SPAM;
+			makeMarkNotSpamSms();
+			return true;
 
-			case R.id.action_mark_as_spam :
-				optionSeleted = OPTION_MARK_SPAM;
-				makeMarkSpamSms();
-				return true;
+		case R.id.action_mark_as_spam:
+			optionSeleted = OPTION_MARK_SPAM;
+			makeMarkSpamSms();
+			return true;
 
-			default :
-				return super.onOptionsItemSelected(item);
+		default:
+			return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -338,29 +461,29 @@ public class SmsDetailFragment extends BaseFragment
 
 			switch (optionSeleted) {
 
-				case OPTION_DELETE :
-					menu.findItem(R.id.action_delete).setVisible(true);
-					break;
+			case OPTION_DELETE:
+				menu.findItem(R.id.action_delete).setVisible(true);
+				break;
 
-				case OPTION_MARK_SPAM :
-					menu.findItem(R.id.action_spam).setVisible(true);
-					break;
+			case OPTION_MARK_SPAM:
+				menu.findItem(R.id.action_spam).setVisible(true);
+				break;
 
-				case OPTION_MARK_NOT_SPAM :
+			case OPTION_MARK_NOT_SPAM:
+				menu.findItem(R.id.action_not_spam).setVisible(true);
+				break;
+
+			case OPTION_NONE:
+				menu.findItem(R.id.action_delete).setVisible(true);
+				if (isSpamBox) {
 					menu.findItem(R.id.action_not_spam).setVisible(true);
-					break;
+				} else {
+					menu.findItem(R.id.action_spam).setVisible(true);
+				}
+				break;
 
-				case OPTION_NONE :
-					menu.findItem(R.id.action_delete).setVisible(true);
-					if (isSpamBox) {
-						menu.findItem(R.id.action_not_spam).setVisible(true);
-					} else {
-						menu.findItem(R.id.action_spam).setVisible(true);
-					}
-					break;
-
-				default :
-					break;
+			default:
+				break;
 			}
 
 			return false; // Return false if nothing is done
@@ -371,24 +494,24 @@ public class SmsDetailFragment extends BaseFragment
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			switch (item.getItemId()) {
 
-				case R.id.action_all :
-					mAdapter.selecteAll();
-					updateSelected();
-					return true;
+			case R.id.action_all:
+				mAdapter.selecteAll();
+				updateSelected();
+				return true;
 
-				case R.id.action_delete :
-					deleteSms();
-					return true;
+			case R.id.action_delete:
+				deleteSms();
+				return true;
 
-				case R.id.action_spam :
-					makeSpam();
-					return true;
+			case R.id.action_spam:
+				makeSpam();
+				return true;
 
-				case R.id.action_not_spam :
-					makeNotSpam();
-					return true;
-				default :
-					return false;
+			case R.id.action_not_spam:
+				makeNotSpam();
+				return true;
+			default:
+				return false;
 			}
 		}
 

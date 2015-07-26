@@ -21,8 +21,8 @@ import com.project.smsfilter.model.SmsTestModel;
 import com.project.smsfilter.utilities.MyLog;
 
 public class MySMSUtils {
-
-	private static final Uri INBOX_URI = Uri.parse("content://sms/inbox");
+	
+	public static final Uri INBOX_URI = Uri.parse( "content://sms/inbox");
 
 	public static ArrayList<SmsTestModel> readSMSInbox(Context activity) {
 

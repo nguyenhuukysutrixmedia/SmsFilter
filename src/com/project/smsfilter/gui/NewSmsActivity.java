@@ -43,6 +43,7 @@ public class NewSmsActivity extends Activity implements OnClickListener {
 
 		initView();
 		initSendToContact();
+
 	}
 
 	private void initView() {
@@ -67,6 +68,7 @@ public class NewSmsActivity extends Activity implements OnClickListener {
 			@Override
 			public void onTextChanged(CharSequence s, int start, int before, int count) {
 				tvTextNumber.setText(edtEditor.getText().toString().length() + "");
+				toggleSendButton();
 			}
 
 			@Override
@@ -77,7 +79,18 @@ public class NewSmsActivity extends Activity implements OnClickListener {
 			public void afterTextChanged(Editable s) {
 			}
 		});
+		toggleSendButton();
+	}
 
+	/**
+	 * 
+	 */
+	private void toggleSendButton() {
+		if (edtEditor.getText().toString().isEmpty()) {
+			btnSend.setEnabled(false);
+		} else {
+			btnSend.setEnabled(true);
+		}
 	}
 
 	/**
@@ -141,7 +154,7 @@ public class NewSmsActivity extends Activity implements OnClickListener {
 	 */
 	private void sendMessage() {
 		MyUtils.requestKeyBoard(mContext, edtEditor, false);
-		
+
 		// try {
 		// SmsManager smsManager = SmsManager.getDefault();
 		// smsManager.sendTextMessage(edtToNumber.getText().toString().trim(), null, edtEditor.getText().toString(),
@@ -194,8 +207,7 @@ public class NewSmsActivity extends Activity implements OnClickListener {
 						result = "No service";
 						break;
 					}
-
-					Toast.makeText(getApplicationContext(), result, Toast.LENGTH_LONG).show();
+					myToast.showToast(result);
 				}
 
 			}, new IntentFilter(SENT));
@@ -204,7 +216,7 @@ public class NewSmsActivity extends Activity implements OnClickListener {
 
 				@Override
 				public void onReceive(Context context, Intent intent) {
-					Toast.makeText(getApplicationContext(), "Deliverd", Toast.LENGTH_LONG).show();
+					myToast.showToast("Deliverd");
 				}
 
 			}, new IntentFilter(DELIVERED));

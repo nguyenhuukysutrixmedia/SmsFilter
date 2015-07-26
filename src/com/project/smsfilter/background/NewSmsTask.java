@@ -49,7 +49,11 @@ public class NewSmsTask extends AsyncTask<Object, Integer, String> {
 		smsTestModel.setPhoneNumber(mPhoneNumber);
 		smsTestModel.setPhoneName(mPhoneName);
 		smsTestModel.setCreateTime(mCreateTime);
-		smsTestModel.setId(Long.parseLong(mNewSmsUri.getLastPathSegment()));
+		try {
+			smsTestModel.setId(Long.parseLong(mNewSmsUri.getLastPathSegment()));
+		} catch (Exception e) {
+		}
+	
 
 		// load sms data
 		// ArrayList<SmsTestModel> listSmsModels = MySMSUtils.readSMSInbox(mContext);
@@ -68,7 +72,6 @@ public class NewSmsTask extends AsyncTask<Object, Integer, String> {
 			// }
 			// MyNotificationHelper.sendSynchonizeNotification(mContext, smsTestModel);
 		} else {
-
 			// SmsTestModel model = smsTestTableHelper.getSmsByContent(mMessage);
 			// if (model != null) {
 			smsTestModel.setSpam(false);
