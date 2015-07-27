@@ -11,6 +11,7 @@ import android.telephony.SmsMessage;
 
 import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyLog;
+import com.project.smsfilter.utilities.MyUtils;
 
 public class IncomingSmsReceiver extends BroadcastReceiver {
 
@@ -24,6 +25,7 @@ public class IncomingSmsReceiver extends BroadcastReceiver {
 
 			boolean isReceivedAction = intent.getAction().equals(Telephony.Sms.Intents.SMS_RECEIVED_ACTION);
 			boolean isDeliverAction = intent.getAction().equals(Telephony.Sms.Intents.SMS_DELIVER_ACTION);
+			boolean isDefault = MyUtils.isDefaultSMSApp(context);
 
 			if (isReceivedAction || isDeliverAction) {
 
@@ -46,20 +48,26 @@ public class IncomingSmsReceiver extends BroadcastReceiver {
 						values.put("body", message);
 
 						Uri uri = null;
-						this.abortBroadcast();
-						uri = context.getContentResolver().insert(MySMSUtils.INBOX_URI, values);
-						// if (isDeliverAction) {
-						// } else {
-						// this.abortBroadcast();
-						// uri = context.getContentResolver().insert(MySMSUtils.INBOX_URI, values);
-						// }
-						new NewSmsTask(context, currentMessage, uri).execute();
+						if (isDefault) {
+							if (isDeliverAction) {
+								uri = context.getContentResolver().insert(MySMSUtils.INBOX_URI, values);
+							}
+						} else {
+							if (isReceivedAction) {
+								this.abortBroadcast();
+								uri = context.getContentResolver().insert(MySMSUtils.INBOX_URI, values);
+							}
+						}
+
+						if (uri != null) {
+							new NewSmsTask(context, currentMessage, uri).execute();
+						}
 
 						MyLog.iLog("IncomingSmsReceiver senderNum: " + phoneName + "; message: " + message);
 					} // end for loop
 				}
 			} // bundle is null
-			this.abortBroadcast();
+				// this.abortBroadcast();
 		} catch (Exception e) {
 			MyLog.eLog("Exception IncomingSmsReceiver: " + e);
 		}

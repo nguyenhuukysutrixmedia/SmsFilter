@@ -1,13 +1,16 @@
 package com.project.smsfilter.gui;
 
 import android.annotation.SuppressLint;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.drawable.ColorDrawable;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.provider.Telephony;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -22,6 +25,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 
 import com.project.smsfilter.R;
+import com.project.smsfilter.background.SmsObserver;
 import com.project.smsfilter.gui.fragment.BaseFragment;
 import com.project.smsfilter.gui.fragment.SmsBoxFragment;
 import com.project.smsfilter.utilities.MyToast;
@@ -46,6 +50,7 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 		isSpamBox = getIntent().getBooleanExtra(TYPE_BOX, false);
 
 		initView();
+		InitializeObserver(mContext);
 	}
 
 	private void initView() {
@@ -232,5 +237,15 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 			}
 		}
 		super.onConfigurationChanged(newConfig);
+	}
+	
+	public static void InitializeObserver(Context c) {
+	    try {
+	        ContentResolver contentResolver = c.getContentResolver();
+	        Handler mSmsObserverHandler = new Handler(Looper.getMainLooper());
+	        SmsObserver mSmsObserver = new SmsObserver(mSmsObserverHandler, c);
+	        contentResolver.registerContentObserver(Uri.parse("content://sms/"), true, mSmsObserver);
+	    } catch (Exception e) {
+	    }
 	}
 }

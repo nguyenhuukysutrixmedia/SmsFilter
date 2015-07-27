@@ -9,7 +9,9 @@ import java.util.regex.Pattern;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.Build;
 import android.os.Vibrator;
+import android.provider.Telephony;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 
@@ -106,5 +108,18 @@ public class MyUtils {
 		Pattern pattern = Pattern.compile(patternString);
 		Matcher matcher = pattern.matcher(sPhoneNumber);
 		return matcher.matches();
+	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static boolean isDefaultSMSApp(Context context) {
+
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+			final String myPackageName = context.getPackageName();
+			return Telephony.Sms.getDefaultSmsPackage(context).equals(myPackageName);
+		}
+		return false;
 	}
 }
