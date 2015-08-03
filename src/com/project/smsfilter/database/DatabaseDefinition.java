@@ -59,7 +59,7 @@ public class DatabaseDefinition {
 					+ COL_PHONE_NUMBER + T_TEXT + "," // 2
 					+ COL_CREATE_TIME + T_INTEGER + "," // 3
 					+ COL_CONTENT + T_TEXT + T_UNIQUE + "," // 4
-					+ COL_TYPE + T_TEXT + "," // 5
+					+ COL_TYPE + T_INTEGER + "," // 5
 					+ COL_STATE + T_TEXT + "," // 6
 					+ COL_IS_SPAM + T_INTEGER + "," // 7
 					+ COL_UID + T_INTEGER + T_PRIMARY_KEY_AUTOINCREMENT // 8
@@ -114,7 +114,7 @@ public class DatabaseDefinition {
 					+ COL_PHONE_NAME + T_TEXT + "," //
 					+ COL_CREATE_TIME + T_INTEGER + "," // 3
 					+ COL_CONTENT + T_TEXT + "," // 4
-					+ COL_TYPE + T_TEXT + "," // 5
+					+ COL_TYPE + T_INTEGER + "," // 5
 					+ COL_STATE + T_TEXT + "," // 6
 					+ COL_IS_SPAM + T_INTEGER + "," // 7
 					+ COL_UID + T_INTEGER + T_PRIMARY_KEY_AUTOINCREMENT + ","// 8

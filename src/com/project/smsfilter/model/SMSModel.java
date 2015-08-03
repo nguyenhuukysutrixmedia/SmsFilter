@@ -7,7 +7,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-public class SMSModel implements Serializable {
+import com.project.smsfilter.sms.Defines.SmsType;
+
+public class SMSModel implements Serializable, SmsType{
 
 	private static final long serialVersionUID = 1L;
 
@@ -20,7 +22,7 @@ public class SMSModel implements Serializable {
 	private String phoneNumber;
 	private Date createTime;
 	private String content;
-	private String type;
+	private int type;
 	private String state;
 	private Boolean isSpam;
 	private String formatContent;
@@ -31,7 +33,7 @@ public class SMSModel implements Serializable {
 		phoneNumber = "";
 		createTime = new Date();
 		content = "";
-		type = "";
+		type = MESSAGE_TYPE_ALL;
 		state = "";
 		isSpam = false;
 		formatContent = "";
@@ -141,13 +143,11 @@ public class SMSModel implements Serializable {
 		this.content = content;
 	}
 
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(String type) {
-		if (phoneNumber == null)
-			phoneNumber = "";
+	public void setType(int type) {
 		this.type = type;
 	}
 

@@ -57,7 +57,7 @@ public class SmsTableHelper extends BaseTableHelper<SMSModel, SmsDefine> {
 				model.setPhoneNumber(c.getString(c.getColumnIndex(SmsDefine.COL_PHONE_NUMBER)));
 				model.setSpam(c.getInt(c.getColumnIndex(SmsDefine.COL_IS_SPAM)) > 0);
 				model.setState(c.getString(c.getColumnIndex(SmsDefine.COL_STATE)));
-				model.setType(c.getString(c.getColumnIndex(SmsDefine.COL_TYPE)));
+				model.setType(c.getInt(c.getColumnIndex(SmsDefine.COL_TYPE)));
 
 				list.add(model);
 			} while (c.moveToNext());

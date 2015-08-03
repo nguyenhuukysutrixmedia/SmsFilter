@@ -86,7 +86,7 @@ public class SplashActivity extends Activity {
 				}
 
 				// mSmsTestTableHelper.deleteAll();
-				ArrayList<SmsTestModel> listSmsModels = MySMSUtils.readSMSInbox(SplashActivity.this);
+				ArrayList<SmsTestModel> listSmsModels = MySMSUtils.readAllSMS(SplashActivity.this);
 				if (listSmsModels.size() <= 0)
 					CreateTestData.createTestSms(mContext);
 				for (SmsTestModel smsModel : listSmsModels) {

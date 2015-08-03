@@ -58,7 +58,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 				model.setPhoneName(c.getString(c.getColumnIndex(SmsTestDefine.COL_PHONE_NAME)));
 				model.setSpam(c.getInt(c.getColumnIndex(SmsTestDefine.COL_IS_SPAM)) > 0);
 				model.setState(c.getString(c.getColumnIndex(SmsTestDefine.COL_STATE)));
-				model.setType(c.getString(c.getColumnIndex(SmsTestDefine.COL_TYPE)));
+				model.setType(c.getInt(c.getColumnIndex(SmsTestDefine.COL_TYPE)));
 				model.setReviewed(c.getInt(c.getColumnIndex(SmsTestDefine.COL_REVIEWED)) > 0);
 
 				list.add(model);

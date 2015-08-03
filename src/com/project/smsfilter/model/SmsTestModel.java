@@ -7,9 +7,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import com.project.smsfilter.sms.Defines.SmsType;
+import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyConstants;
 
-public class SmsTestModel implements Serializable {
+public class SmsTestModel implements Serializable, SmsType {
 
 	private static final long serialVersionUID = 1L;
 
@@ -19,7 +21,7 @@ public class SmsTestModel implements Serializable {
 	private String phoneName;
 	private long createTime;
 	private String content;
-	private String type;
+	private int type;
 	private String state;
 	private Boolean isSpam;
 	private String formatContent;
@@ -32,7 +34,7 @@ public class SmsTestModel implements Serializable {
 		phoneName = "";
 		createTime = 0;
 		content = "";
-		type = "";
+		type = MESSAGE_TYPE_ALL;
 		state = "";
 		isSpam = false;
 		formatContent = "";
@@ -121,14 +123,15 @@ public class SmsTestModel implements Serializable {
 		this.content = content;
 	}
 
-	public String getType() {
+	public int getType() {
 		return type;
 	}
 
-	public void setType(String type) {
-		if (phoneNumber == null)
-			phoneNumber = "";
+	public void setType(int type) {
 		this.type = type;
+		if(!MySMSUtils.isInbox(type)){
+			isReviewed = true;
+		}
 	}
 
 	public String getState() {

@@ -9,11 +9,12 @@ import android.os.Bundle;
 import android.provider.Telephony;
 import android.telephony.SmsMessage;
 
+import com.project.smsfilter.sms.Defines.SmsUri;
 import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyLog;
 import com.project.smsfilter.utilities.MyUtils;
 
-public class IncomingSmsReceiver extends BroadcastReceiver {
+public class IncomingSmsReceiver extends BroadcastReceiver implements SmsUri {
 
 	// Get the object of SmsManager
 	// final SmsManager sms = SmsManager.getDefault();
@@ -50,12 +51,12 @@ public class IncomingSmsReceiver extends BroadcastReceiver {
 						Uri uri = null;
 						if (isDefault) {
 							if (isDeliverAction) {
-								uri = context.getContentResolver().insert(MySMSUtils.INBOX_URI, values);
+								uri = context.getContentResolver().insert(INBOX, values);
 							}
 						} else {
 							if (isReceivedAction) {
 								this.abortBroadcast();
-								uri = context.getContentResolver().insert(MySMSUtils.INBOX_URI, values);
+								uri = context.getContentResolver().insert(MySMSUtils.INBOX, values);
 							}
 						}
 

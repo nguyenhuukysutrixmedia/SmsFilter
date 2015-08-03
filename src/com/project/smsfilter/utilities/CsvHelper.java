@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.res.AssetManager;
 
 import com.project.smsfilter.model.SMSModel;
+import com.project.smsfilter.sms.Defines.SmsType;
 
 public class CsvHelper {
 
@@ -90,7 +91,12 @@ public class CsvHelper {
 				} catch (Exception e) {
 				}
 				try {
-					model.setType(arr[5]);
+					String type = arr[5];
+					if ("in".equals(type)) {
+						model.setType(SmsType.MESSAGE_TYPE_INBOX);	
+					}else{
+						model.setType(SmsType.MESSAGE_TYPE_OUTBOX);	
+					}
 				} catch (Exception e) {
 				}
 				try {
