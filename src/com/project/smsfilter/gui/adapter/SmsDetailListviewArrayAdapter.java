@@ -9,18 +9,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.CheckBox;
 import android.widget.FrameLayout;
+import android.widget.FrameLayout.LayoutParams;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.project.smsfilter.R;
-import com.project.smsfilter.database.DatabaseDefinition.SmsDefine;
 import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
-import com.project.smsfilter.sms.Defines;
 import com.project.smsfilter.sms.Defines.SmsType;
-import com.project.smsfilter.sms.Defines.SmsUri;
 import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyConstants;
 
@@ -81,11 +78,7 @@ public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> im
 				// viewHolder.layoutCheckBox.setVisibility(View.VISIBLE);
 				// viewHolder.cbSelection.setChecked(itemModel.isChecked());
 			} else {
-				if (MySMSUtils.isInbox(itemModel.getSmsModel().getType())) {
-					viewHolder.layoutRootItem.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_inbox);
-				} else {
-					viewHolder.layoutRootItem.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_outbox);
-				}
+				checkInboxOutbox(itemModel, viewHolder);
 				// viewHolder.layoutCheckBox.setVisibility(View.GONE);
 				// viewHolder.cbSelection.setChecked(false);
 			}
@@ -95,6 +88,24 @@ public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> im
 		}
 
 		return v;
+	}
+
+	private void checkInboxOutbox(final SmsItemModel itemModel, final ViewHolder viewHolder) {
+
+		LinearLayout layout = viewHolder.layoutRootItem;
+		int marginLeftOrRight = mContext.getResources().getDimensionPixelSize(R.dimen.sms_detail_item_margin_right_or_left);
+		FrameLayout.LayoutParams lp = (LayoutParams) layout.getLayoutParams();
+		
+		if (MySMSUtils.isInbox(itemModel.getSmsModel().getType())) {
+			layout.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_inbox);
+			
+			lp.setMargins(lp.leftMargin, lp.topMargin, marginLeftOrRight, lp.bottomMargin);
+		} else {
+			layout.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_outbox);
+			lp.setMargins(marginLeftOrRight, lp.topMargin, lp.rightMargin, lp.bottomMargin);
+			
+		}
+		layout.setLayoutParams(lp);
 	}
 
 	class ViewHolder {

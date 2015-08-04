@@ -87,8 +87,8 @@ public class SplashActivity extends Activity {
 
 				// mSmsTestTableHelper.deleteAll();
 				ArrayList<SmsTestModel> listSmsModels = MySMSUtils.readAllSMS(SplashActivity.this);
-				if (listSmsModels.size() <= 0)
-					CreateTestData.createTestSms(mContext);
+				// if (listSmsModels.size() <= 0)
+				// CreateTestData.createTestSms(mContext);
 				for (SmsTestModel smsModel : listSmsModels) {
 					// MyLog.iLog("SMS:: " + smsModel.toString());
 					mSmsTestTableHelper.insert(smsModel);

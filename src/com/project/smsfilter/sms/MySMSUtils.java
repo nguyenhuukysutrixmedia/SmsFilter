@@ -18,10 +18,10 @@ import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
 
 import com.project.smsfilter.model.SmsTestModel;
-import com.project.smsfilter.utilities.MyLog;
 import com.project.smsfilter.sms.Defines.SmsColumn;
 import com.project.smsfilter.sms.Defines.SmsType;
 import com.project.smsfilter.sms.Defines.SmsUri;
+import com.project.smsfilter.utilities.MyLog;
 
 public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 
@@ -85,6 +85,7 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 				sms.setPhoneNumber(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS)));
 				sms.setPhoneName(getContactName(contentResolver, sms.getPhoneNumber()));
 				sms.setId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn._ID)));
+				sms.setThreadId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn.THREAD_ID)));
 				sms.setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.DATE))));
 				sms.setState(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.STATUS)));
 				sms.setType(c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE)));
@@ -100,7 +101,6 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 				System.currentTimeMillis() - startTime));
 		return listSMS;
 	}
-
 	public static String getContactName(ContentResolver cr, String phoneNumber) {
 
 		String contactName = null;

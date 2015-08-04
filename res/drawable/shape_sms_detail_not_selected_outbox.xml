@@ -4,13 +4,13 @@
     <item>
         <shape android:shape="rectangle" >
             <solid android:color="@color/main_light_1" />
-            <solid android:color="#BBFFFFFF" />
+<!--             <solid android:color="#BBFFFFFF" /> -->
 
             <stroke
                 android:width="1dip"
                 android:color="#11dddddd" />
 
-            <corners android:radius="10dp" />
+            <corners android:radius="@dimen/sms_detail_item_rouder" />
         </shape>
     </item>
 

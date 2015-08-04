@@ -96,6 +96,7 @@ public class DatabaseDefinition {
 		public static final String TABLE_NAME = "sms_test";
 		//
 		public static final String COL_ID = "c_id";
+		public static final String COL_THREAD_ID = "c_thread_id"; //
 		public static final String COL_PHONE_NUMBER = "c_phone_number";
 		public static final String COL_PHONE_NAME = "c_phone_name";
 		public static final String COL_CREATE_TIME = "c_create_time";
@@ -110,6 +111,7 @@ public class DatabaseDefinition {
 		public String createQuery() {
 			return CREATE_TABLE + TABLE_NAME + " (" //
 					+ COL_ID + T_INTEGER + T_UNIQUE + "," // 1
+					+ COL_THREAD_ID + T_INTEGER + "," //
 					+ COL_PHONE_NUMBER + T_TEXT + "," // 2
 					+ COL_PHONE_NAME + T_TEXT + "," //
 					+ COL_CREATE_TIME + T_INTEGER + "," // 3
@@ -131,6 +133,7 @@ public class DatabaseDefinition {
 		public String[] getColoumns() {
 			return new String[]{ //
 			COL_ID,// 1
+					COL_THREAD_ID, //
 					COL_PHONE_NUMBER, // 2
 					COL_PHONE_NAME, //
 					COL_CREATE_TIME, // 3

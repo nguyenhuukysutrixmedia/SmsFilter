@@ -30,6 +30,10 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 		// values.put(COL_UID, model.getUid());
 		if (model.getId() > 0)
 			values.put(SmsTestDefine.COL_ID, model.getId());
+		
+		if (model.getThreadId() > 0)
+			values.put(SmsTestDefine.COL_THREAD_ID, model.getThreadId());
+		
 		values.put(SmsTestDefine.COL_CONTENT, model.getContent());
 		values.put(SmsTestDefine.COL_CREATE_TIME, model.getCreateTime());
 		// values.put(SmsTestDefine.COL_FORMAT_CONTENT, model.getFormatContent());
@@ -51,6 +55,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 				SmsTestModel model = new SmsTestModel();
 				model.setUid(c.getInt(c.getColumnIndex(SmsTestDefine.COL_UID)));
 				model.setId(c.getInt(c.getColumnIndex(SmsTestDefine.COL_ID)));
+				model.setThreadId(c.getInt(c.getColumnIndex(SmsTestDefine.COL_THREAD_ID)));
 				model.setContent(c.getString(c.getColumnIndex(SmsTestDefine.COL_CONTENT)));
 				model.setCreateTime(c.getLong(c.getColumnIndex(SmsTestDefine.COL_CREATE_TIME)));
 				// model.setFormatContent(c.getString(c.getColumnIndex(SmsTestDefine.COL_FORMAT_CONTENT)));
@@ -95,7 +100,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 		mSqlWhereClause = SmsTestDefine.COL_IS_SPAM + " = 1";
 		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
-		mSqlGroupClause = SmsTestDefine.COL_PHONE_NUMBER;
+		mSqlGroupClause = SmsTestDefine.COL_THREAD_ID;
 		mSqlHavingClause = " max(" + SmsTestDefine.COL_CREATE_TIME + ")";
 		return super.getByQuery();
 	}
@@ -104,7 +109,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 		mSqlWhereClause = SmsTestDefine.COL_IS_SPAM + " = 0 ";
 		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
-		mSqlGroupClause = SmsTestDefine.COL_PHONE_NUMBER;
+		mSqlGroupClause = SmsTestDefine.COL_THREAD_ID;
 		mSqlHavingClause = " max(" + SmsTestDefine.COL_CREATE_TIME + ")";
 		return super.getByQuery();
 	}

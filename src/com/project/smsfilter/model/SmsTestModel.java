@@ -17,6 +17,7 @@ public class SmsTestModel implements Serializable, SmsType {
 
 	private int uid;
 	private long id;
+	private long threadId;
 	private String phoneNumber;
 	private String phoneName;
 	private long createTime;
@@ -45,9 +46,9 @@ public class SmsTestModel implements Serializable, SmsType {
 	public String toString() {
 		return String
 				.format(Locale.US,
-						"uid: %s - id: %d - phoneNumber: %s - phoneName: %s - createTime: %s - content: %s - type: %s - state: %s - isSpam: %s - formatContent: %s ",
-						uid, id, phoneNumber, phoneName, getCreateTimeString(MyConstants.DATE_FORMAT), content, type,
-						state, isSpam, formatContent);
+						"uid: %s - id: %d - thread_id: %d - phoneNumber: %s - phoneName: %s - createTime: %s - content: %s - type: %s - state: %s - isSpam: %s - formatContent: %s ",
+						uid, id, threadId, phoneNumber, phoneName, getCreateTimeString(MyConstants.DATE_FORMAT),
+						content, type, state, isSpam, formatContent);
 	}
 
 	public int getUid() {
@@ -91,7 +92,7 @@ public class SmsTestModel implements Serializable, SmsType {
 	public void setCreateTime(long createTime) {
 		this.createTime = createTime;
 	}
-	
+
 	public void setCreateTime(String createTimeString, String templateFormat) {
 		try {
 			SimpleDateFormat sdf = new SimpleDateFormat(templateFormat, Locale.getDefault());
@@ -129,7 +130,7 @@ public class SmsTestModel implements Serializable, SmsType {
 
 	public void setType(int type) {
 		this.type = type;
-		if(!MySMSUtils.isInbox(type)){
+		if (!MySMSUtils.isInbox(type)) {
 			isReviewed = true;
 		}
 	}
@@ -172,6 +173,14 @@ public class SmsTestModel implements Serializable, SmsType {
 
 	public void setReviewed(boolean userReviewed) {
 		this.isReviewed = userReviewed;
+	}
+
+	public long getThreadId() {
+		return threadId;
+	}
+
+	public void setThreadId(long threadId) {
+		this.threadId = threadId;
 	}
 
 }
