@@ -114,8 +114,12 @@ public class SmsTestModel implements Serializable, SmsType {
 		}
 	}
 
-	public String getContent() {
+	public String getLowerCaseContent() {
 		return content.toLowerCase(Locale.getDefault());
+	}
+	
+	public String getContent() {
+		return content;
 	}
 
 	public void setContent(String content) {

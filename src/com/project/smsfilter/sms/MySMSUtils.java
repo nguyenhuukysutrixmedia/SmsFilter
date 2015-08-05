@@ -80,19 +80,24 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 			for (int i = 0; i < c.getCount(); i++) {
 
 				// { "_id", "thread_id", "address", "person", "date", "body", "type" }
-				SmsTestModel sms = new SmsTestModel();
-				sms.setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
-				sms.setPhoneNumber(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS)));
-				sms.setPhoneName(getContactName(contentResolver, sms.getPhoneNumber()));
-				sms.setId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn._ID)));
-				sms.setThreadId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn.THREAD_ID)));
-				sms.setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.DATE))));
-				sms.setState(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.STATUS)));
-				sms.setType(c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE)));
+				
+				int type = c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE));
+				if (type != MESSAGE_TYPE_DRAFT) {
+					SmsTestModel sms = new SmsTestModel();
+					sms.setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
+					sms.setPhoneNumber(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS)));
+					sms.setPhoneName(getContactName(contentResolver, sms.getPhoneNumber()));
+					sms.setId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn._ID)));
+					sms.setThreadId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn.THREAD_ID)));
+					sms.setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.DATE))));
+					sms.setState(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.STATUS)));
+					sms.setType(type);
 
-				MyLog.iLog("sms: " + sms);
+					MyLog.iLog("sms: " + sms);
 
-				listSMS.add(sms);
+					listSMS.add(sms);
+				}
+				
 				c.moveToNext();
 			}
 		}

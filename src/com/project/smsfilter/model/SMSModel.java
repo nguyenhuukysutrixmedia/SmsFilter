@@ -43,7 +43,7 @@ public class SMSModel implements Serializable, SmsType{
 		uid = -1;
 		id = smsTestModel.getId();
 		phoneNumber = smsTestModel.getPhoneNumber();
-		content = smsTestModel.getContent();
+		content = smsTestModel.getLowerCaseContent();
 		type = smsTestModel.getType();
 		state = smsTestModel.getState();
 		isSpam = smsTestModel.isSpam();
