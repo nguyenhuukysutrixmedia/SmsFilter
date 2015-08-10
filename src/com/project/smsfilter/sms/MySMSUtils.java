@@ -75,23 +75,23 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 		// Read the sms data and store it in the list
 
 		if (c.moveToFirst()) {
-
 			ContentResolver contentResolver = activity.getContentResolver();
 			for (int i = 0; i < c.getCount(); i++) {
-
-				// { "_id", "thread_id", "address", "person", "date", "body", "type" }
-				SmsTestModel sms = new SmsTestModel();
-				sms.setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
-				sms.setPhoneNumber(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS)));
-				sms.setPhoneName(getContactName(contentResolver, sms.getPhoneNumber()));
-				sms.setId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn._ID)));
-				sms.setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.DATE))));
-				sms.setState(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.STATUS)));
-				sms.setType(c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE)));
-
-				MyLog.iLog("sms: " + sms);
-
-				listSMS.add(sms);
+				
+				int type = c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE));
+				if(type!= MESSAGE_TYPE_DRAFT){
+					// { "_id", "thread_id", "address", "person", "date", "body", "type" }
+					SmsTestModel sms = new SmsTestModel();
+					sms.setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
+					sms.setPhoneNumber(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS)));
+					sms.setPhoneName(getContactName(contentResolver, sms.getPhoneNumber()));
+					sms.setId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn._ID)));
+					sms.setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.DATE))));
+					sms.setState(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.STATUS)));
+					sms.setType(type);
+					MyLog.iLog("sms: " + sms);
+					listSMS.add(sms);
+				}
 				c.moveToNext();
 			}
 		}

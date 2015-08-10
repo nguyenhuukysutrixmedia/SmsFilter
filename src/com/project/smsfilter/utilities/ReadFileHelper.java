@@ -16,7 +16,7 @@ import android.content.res.AssetManager;
 import com.project.smsfilter.model.SMSModel;
 import com.project.smsfilter.sms.Defines.SmsType;
 
-public class CsvHelper {
+public class ReadFileHelper {
 
 	public static String FILE_NAME = "SMS.csv";
 

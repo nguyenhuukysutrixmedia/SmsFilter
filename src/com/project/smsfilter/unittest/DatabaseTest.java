@@ -11,7 +11,7 @@ import com.project.smsfilter.gui.SplashActivity;
 import com.project.smsfilter.model.SMSModel;
 import com.project.smsfilter.model.SmsTestModel;
 import com.project.smsfilter.sms.MySMSUtils;
-import com.project.smsfilter.utilities.CsvHelper;
+import com.project.smsfilter.utilities.ReadFileHelper;
 import com.project.smsfilter.utilities.MyPreferenceUtils;
 
 public class DatabaseTest extends AndroidTestCase {
@@ -22,10 +22,10 @@ public class DatabaseTest extends AndroidTestCase {
 	public void setUp() {
 		mSmsTableHelper = new SmsTableHelper(mContext);
 		// mSmsTestTableHelper = new SmsTestTableHelper(mContext);
-		CsvHelper.copyTemplateSmsData(mContext);
+		ReadFileHelper.copyTemplateSmsData(mContext);
 		// if (!MyPreferenceUtils.isDataUpToDate(mContext)) {
 		mSmsTableHelper.deleteAll();
-		ArrayList<SMSModel> listSmsModelsCSV = CsvHelper.parseSmsAssetData(mContext);
+		ArrayList<SMSModel> listSmsModelsCSV = ReadFileHelper.parseSmsAssetData(mContext);
 		for (SMSModel smsModel : listSmsModelsCSV) {
 			mSmsTableHelper.insert(smsModel);
 		}

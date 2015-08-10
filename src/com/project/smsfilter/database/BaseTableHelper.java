@@ -55,11 +55,11 @@ public abstract class BaseTableHelper<M, D> {
 				} catch (SQLException e) {
 					// update(model);
 					e.printStackTrace();
-					MyLog.eLog(this + "-BaseTableHelper-insert error: " + e);
+					MyLog.eLog(this + "-BaseTableHelper-insert error: " + e + "-" + model);
 					return -1;
 				} catch (Exception e) {
 					e.printStackTrace();
-					MyLog.eLog(this + "-BaseTableHelper-insert error: " + e);
+					MyLog.eLog(this + "-BaseTableHelper-insert error: " + e + "-" + model);
 					return -1;
 				} finally {
 					if (db != null) {
@@ -88,11 +88,11 @@ public abstract class BaseTableHelper<M, D> {
 					return true;
 				} catch (SQLException e) {
 					e.printStackTrace();
-					MyLog.eLog("BaseTableHelper-update error: " + e);
+					MyLog.eLog("BaseTableHelper-update error: " + e + "-" + model);
 					return false;
 				} catch (Exception e) {
 					e.printStackTrace();
-					MyLog.eLog("BaseTableHelper-update error: " + e);
+					MyLog.eLog("BaseTableHelper-update error: " + e + "-" + model);
 					return false;
 				}
 
@@ -115,7 +115,7 @@ public abstract class BaseTableHelper<M, D> {
 				try {
 
 					db.beginTransaction();
-					db.delete(mTableName, mSqlWhereClause, new String[]{});
+					db.delete(mTableName, mSqlWhereClause, new String[] {});
 					db.setTransactionSuccessful();
 					// MyLog.iLog("BaseTableHelper-delete id: " + uid);
 					return true;
@@ -146,7 +146,7 @@ public abstract class BaseTableHelper<M, D> {
 				try {
 
 					db.beginTransaction();
-					db.delete(mTableName, " 1 ", new String[]{});
+					db.delete(mTableName, " 1 ", new String[] {});
 					db.setTransactionSuccessful();
 
 					// MyLog.iLog("BaseTableHelper-deleteAll done");
@@ -221,7 +221,7 @@ public abstract class BaseTableHelper<M, D> {
 
 		try {
 			db = mSqLiteHelper.getReadableDatabase();
-			c = db.rawQuery(selectQuery, new String[]{});
+			c = db.rawQuery(selectQuery, new String[] {});
 			lstResult = parseCursor(c);
 		} catch (SQLException e) {
 			e.printStackTrace();
