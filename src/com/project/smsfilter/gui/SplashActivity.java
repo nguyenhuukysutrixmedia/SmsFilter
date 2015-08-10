@@ -17,9 +17,10 @@ import com.project.smsfilter.model.SMSModel;
 import com.project.smsfilter.model.SmsTestModel;
 import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.unittest.CreateTestData;
-import com.project.smsfilter.utilities.CsvHelper;
 import com.project.smsfilter.utilities.MyLog;
 import com.project.smsfilter.utilities.MyPreferenceUtils;
+import com.project.smsfilter.utilities.ReadExcelHelper;
+import com.project.smsfilter.utilities.ReadFileHelper;
 
 public class SplashActivity extends Activity {
 
@@ -71,13 +72,14 @@ public class SplashActivity extends Activity {
 			@Override
 			protected String doInBackground(String... params) {
 
-				CsvHelper.copyTemplateSmsData(mContext);
+				ReadFileHelper.copyTemplateSmsData(mContext);
 
 				mSmsTableHelper = new SmsTableHelper(mContext);
 				mSmsTestTableHelper = new SmsTestTableHelper(mContext);
 
 				if (!MyPreferenceUtils.isDataUpToDate(mContext)) {
-					ArrayList<SMSModel> listSmsModelsCSV = CsvHelper.parseSmsAssetData(mContext);
+//					ArrayList<SMSModel> listSmsModelsCSV = ReadFileHelper.parseSmsAssetData(mContext);
+					ArrayList<SMSModel> listSmsModelsCSV = ReadExcelHelper.parseSmsAssetData(mContext);
 					for (SMSModel smsModel : listSmsModelsCSV) {
 						mSmsTableHelper.insert(smsModel);
 					}

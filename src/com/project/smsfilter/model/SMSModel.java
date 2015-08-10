@@ -9,7 +9,7 @@ import java.util.Locale;
 
 import com.project.smsfilter.sms.Defines.SmsType;
 
-public class SMSModel implements Serializable, SmsType{
+public class SMSModel implements Serializable, SmsType {
 
 	private static final long serialVersionUID = 1L;
 

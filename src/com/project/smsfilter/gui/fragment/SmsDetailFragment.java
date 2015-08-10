@@ -31,7 +31,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.project.smsfilter.R;
 import com.project.smsfilter.database.SmsTableHelper;
@@ -286,44 +285,9 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 			PendingIntent deliverPI = PendingIntent.getBroadcast(getActivity(), 0, deliveryIntent,
 					PendingIntent.FLAG_UPDATE_CURRENT);
 			/* Register for SMS send action */
-			getActivity().registerReceiver(new BroadcastReceiver() {
-
-				@Override
-				public void onReceive(Context context, Intent intent) {
-					String result = "";
-
-					switch (getResultCode()) {
-
-					case Activity.RESULT_OK:
-						result = "Transmission successful";
-						break;
-					case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-						result = "Transmission failed";
-						break;
-					case SmsManager.RESULT_ERROR_RADIO_OFF:
-						result = "Radio off";
-						break;
-					case SmsManager.RESULT_ERROR_NULL_PDU:
-						result = "No PDU defined";
-						break;
-					case SmsManager.RESULT_ERROR_NO_SERVICE:
-						result = "No service";
-						break;
-					}
-
-					myToast.showToast(result);
-				}
-
-			}, new IntentFilter(SENT));
+			getActivity().registerReceiver(sendSmsReceiver, new IntentFilter(SENT));
 			/* Register for Delivery event */
-			getActivity().registerReceiver(new BroadcastReceiver() {
-
-				@Override
-				public void onReceive(Context context, Intent intent) {
-					myToast.showToast("Deliverd");
-				}
-
-			}, new IntentFilter(DELIVERED));
+			getActivity().registerReceiver(deliverdSmsReceiver, new IntentFilter(DELIVERED));
 
 			/* Send SMS */
 			SmsManager smsManager = SmsManager.getDefault();
@@ -333,6 +297,44 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 			ex.printStackTrace();
 		}
 	}
+
+	private BroadcastReceiver sendSmsReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			String result = "";
+
+			switch (getResultCode()) {
+
+			case Activity.RESULT_OK:
+				result = "Transmission successful";
+				break;
+			case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
+				result = "Transmission failed";
+				break;
+			case SmsManager.RESULT_ERROR_RADIO_OFF:
+				result = "Radio off";
+				break;
+			case SmsManager.RESULT_ERROR_NULL_PDU:
+				result = "No PDU defined";
+				break;
+			case SmsManager.RESULT_ERROR_NO_SERVICE:
+				result = "No service";
+				break;
+			}
+
+			myToast.showToast(result);
+		}
+	};
+
+	private BroadcastReceiver deliverdSmsReceiver = new BroadcastReceiver() {
+
+		@Override
+		public void onReceive(Context context, Intent intent) {
+			myToast.showToast("Deliverd");
+		}
+
+	};
 
 	@Override
 	public void onPrepareOptionsMenu(Menu menu) {
@@ -579,6 +581,17 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 			mActionMode.finish(); // Action picked, so close the CAB
 		} else {
 			mMyToast.showToast("Please seletect SMS want to make not spam first");
+		}
+	}
+
+	@Override
+	public void onDestroyView() {
+		// TODO Auto-generated method stub
+		super.onDestroyView();
+		try {
+			getActivity().unregisterReceiver(deliverdSmsReceiver);
+			getActivity().unregisterReceiver(sendSmsReceiver);
+		} catch (Exception e) {
 		}
 	}
 }

@@ -80,7 +80,7 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 			for (int i = 0; i < c.getCount(); i++) {
 
 				// { "_id", "thread_id", "address", "person", "date", "body", "type" }
-				
+
 				int type = c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE));
 				if (type != MESSAGE_TYPE_DRAFT) {
 					SmsTestModel sms = new SmsTestModel();
@@ -97,7 +97,7 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 
 					listSMS.add(sms);
 				}
-				
+
 				c.moveToNext();
 			}
 		}
@@ -106,13 +106,14 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 				System.currentTimeMillis() - startTime));
 		return listSMS;
 	}
+
 	public static String getContactName(ContentResolver cr, String phoneNumber) {
 
 		String contactName = null;
 		try {
 
 			Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-			Cursor cursor = cr.query(uri, new String[]{PhoneLookup.DISPLAY_NAME}, null, null, null);
+			Cursor cursor = cr.query(uri, new String[] { PhoneLookup.DISPLAY_NAME }, null, null, null);
 			if (cursor == null) {
 				return null;
 			}
@@ -127,10 +128,11 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 		}
 		return contactName;
 	}
+
 	public static Drawable openPhoto(Context context, long contactId) {
 		Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
 		Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-		Cursor cursor = context.getContentResolver().query(photoUri, new String[]{Contacts.Photo.PHOTO}, null, null,
+		Cursor cursor = context.getContentResolver().query(photoUri, new String[] { Contacts.Photo.PHOTO }, null, null,
 				null);
 		if (cursor == null) {
 			return null;
@@ -152,8 +154,8 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 
 	public static Bitmap fetchThumbnail(Context context, String phoneNumber) {
 
-		final String[] PHOTO_ID_PROJECTION = new String[]{ContactsContract.Contacts.PHOTO_ID};
-		final String[] PHOTO_BITMAP_PROJECTION = new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO};
+		final String[] PHOTO_ID_PROJECTION = new String[] { ContactsContract.Contacts.PHOTO_ID };
+		final String[] PHOTO_BITMAP_PROJECTION = new String[] { ContactsContract.CommonDataKinds.Photo.PHOTO };
 
 		ContentResolver contentResolver = context.getContentResolver();
 
@@ -224,13 +226,13 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 	public static boolean isAllOut(int smsType) {
 
 		switch (smsType) {
-			case MESSAGE_TYPE_OUTBOX :
-				// case MESSAGE_TYPE_QUEUED :
-				// case MESSAGE_TYPE_FAILED :
-			case MESSAGE_TYPE_SENT :
-				return true;
-			default :
-				break;
+		case MESSAGE_TYPE_OUTBOX:
+			// case MESSAGE_TYPE_QUEUED :
+			// case MESSAGE_TYPE_FAILED :
+		case MESSAGE_TYPE_SENT:
+			return true;
+		default:
+			break;
 		}
 		return false;
 	}
