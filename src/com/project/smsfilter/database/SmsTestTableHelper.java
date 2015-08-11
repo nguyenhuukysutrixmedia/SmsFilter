@@ -30,10 +30,10 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 		// values.put(COL_UID, model.getUid());
 		if (model.getId() > 0)
 			values.put(SmsTestDefine.COL_ID, model.getId());
-		
+
 		if (model.getThreadId() > 0)
 			values.put(SmsTestDefine.COL_THREAD_ID, model.getThreadId());
-		
+
 		values.put(SmsTestDefine.COL_CONTENT, model.getContent());
 		values.put(SmsTestDefine.COL_CREATE_TIME, model.getCreateTime());
 		// values.put(SmsTestDefine.COL_FORMAT_CONTENT, model.getFormatContent());
@@ -85,21 +85,21 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 	public ArrayList<SmsTestModel> getAll() {
 
-		mSqlOrderClause = SmsTestDefine.COL_UID + " DESC";
+		mSqlOrderClause = SmsTestDefine.COL_UID + DatabaseDefinition.O_DESC;
 		return super.getAll();
 	}
 
 	public ArrayList<SmsTestModel> getListNeedFilter() {
 
 		mSqlWhereClause = SmsTestDefine.COL_REVIEWED + " = 0";
-		mSqlOrderClause = SmsTestDefine.COL_UID + " DESC";
+		mSqlOrderClause = SmsTestDefine.COL_UID + DatabaseDefinition.O_DESC;
 		return super.getByQuery();
 	}
 
 	public ArrayList<SmsTestModel> getListSpam() {
 
 		mSqlWhereClause = SmsTestDefine.COL_IS_SPAM + " = 1";
-		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
+		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + DatabaseDefinition.O_DESC;
 		mSqlGroupClause = SmsTestDefine.COL_THREAD_ID;
 		mSqlHavingClause = " max(" + SmsTestDefine.COL_CREATE_TIME + ")";
 		return super.getByQuery();
@@ -108,7 +108,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 	public ArrayList<SmsTestModel> getListNotSpam() {
 
 		mSqlWhereClause = SmsTestDefine.COL_IS_SPAM + " = 0 ";
-		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
+		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + DatabaseDefinition.O_DESC;
 		mSqlGroupClause = SmsTestDefine.COL_THREAD_ID;
 		mSqlHavingClause = " max(" + SmsTestDefine.COL_CREATE_TIME + ")";
 		return super.getByQuery();
@@ -116,7 +116,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 	public ArrayList<SmsTestModel> getListNotSpamByPhoneNumber(String phoneNumber) {
 
-		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
+		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + DatabaseDefinition.O_ASC;
 		mSqlWhereClause = SmsTestDefine.COL_PHONE_NUMBER + " = '" + phoneNumber + "' and " + SmsTestDefine.COL_IS_SPAM
 				+ " = 0 ";
 		return super.getByQuery();
@@ -124,7 +124,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 	public ArrayList<SmsTestModel> getListSpamByPhoneNumber(String phoneNumber) {
 
-		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
+		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + DatabaseDefinition.O_ASC;
 		mSqlWhereClause = SmsTestDefine.COL_PHONE_NUMBER + " = '" + phoneNumber + "' and " + SmsTestDefine.COL_IS_SPAM
 				+ " = 1 ";
 		return super.getByQuery();
@@ -140,7 +140,7 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 		mSqlHavingClause = null;
 		mSqlWhereClause = String.format(SmsTestDefine.COL_CONTENT + " = '%s'", content);
-		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + " DESC";
+		mSqlOrderClause = SmsTestDefine.COL_CREATE_TIME + DatabaseDefinition.O_DESC;
 		ArrayList<SmsTestModel> list = getByQuery();
 		if (list.size() > 0)
 			return list.get(0);

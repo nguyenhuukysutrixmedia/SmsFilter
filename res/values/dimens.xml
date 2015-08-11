@@ -13,7 +13,8 @@
     <!-- sms item layout -->
     <dimen name="sms_item_height">64dp</dimen>
     <dimen name="sms_checkbox_size">25dp</dimen>
-    <dimen name="sms_detail_item_rouder">5dp</dimen>
+    <dimen name="sms_detail_item_rouder">4dp</dimen>
+    <dimen name="sms_detail_item_margin_left_right_default">8dp</dimen>
     <dimen name="sms_detail_item_margin_right_or_left">32dp</dimen>    
     
     <!-- main -->

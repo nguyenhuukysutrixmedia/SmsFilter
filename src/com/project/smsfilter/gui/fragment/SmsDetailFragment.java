@@ -45,8 +45,12 @@ import com.project.smsfilter.utilities.MyLog;
 import com.project.smsfilter.utilities.MyToast;
 import com.project.smsfilter.utilities.MyUtils;
 
-public class SmsDetailFragment extends BaseFragment implements OnClickListener, OnItemLongClickListener,
-		OnItemClickListener, ConstantDefines {
+public class SmsDetailFragment extends BaseFragment
+		implements
+			OnClickListener,
+			OnItemLongClickListener,
+			OnItemClickListener,
+			ConstantDefines {
 
 	private String mPhoneNumber;
 	private String mPhoneName;
@@ -70,6 +74,12 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 
 	private ActionMode mActionMode;
 
+	/**
+	 * 
+	 * @param phoneNumber
+	 * @param phoneName
+	 * @param isSpamBox
+	 */
 	public SmsDetailFragment(String phoneNumber, String phoneName, boolean isSpamBox) {
 		super();
 		mPhoneNumber = phoneNumber;
@@ -107,7 +117,7 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 
 		Bitmap bm = MySMSUtils.fetchThumbnail(mContext, mPhoneNumber);
 		if (bm != null) {
-			getActivity().getActionBar().setIcon(new BitmapDrawable(bm));
+			getActivity().getActionBar().setIcon(new BitmapDrawable(getResources(), bm));
 		} else {
 			getActivity().getActionBar().setIcon(R.drawable.ic_contact_picture);
 		}
@@ -226,6 +236,9 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 		}
 	}
 
+	/**
+	 * 
+	 */
 	private void loadListView() {
 
 		mSmsTestTableHelper = new SmsTestTableHelper(mContext);
@@ -253,12 +266,12 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-		case R.id.btn_send:
-			sendMessage();
-			break;
+			case R.id.btn_send :
+				sendMessage();
+				break;
 
-		default:
-			break;
+			default :
+				break;
 		}
 	}
 
@@ -306,21 +319,21 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 
 			switch (getResultCode()) {
 
-			case Activity.RESULT_OK:
-				result = "Transmission successful";
-				break;
-			case SmsManager.RESULT_ERROR_GENERIC_FAILURE:
-				result = "Transmission failed";
-				break;
-			case SmsManager.RESULT_ERROR_RADIO_OFF:
-				result = "Radio off";
-				break;
-			case SmsManager.RESULT_ERROR_NULL_PDU:
-				result = "No PDU defined";
-				break;
-			case SmsManager.RESULT_ERROR_NO_SERVICE:
-				result = "No service";
-				break;
+				case Activity.RESULT_OK :
+					result = "Transmission successful";
+					break;
+				case SmsManager.RESULT_ERROR_GENERIC_FAILURE :
+					result = "Transmission failed";
+					break;
+				case SmsManager.RESULT_ERROR_RADIO_OFF :
+					result = "Radio off";
+					break;
+				case SmsManager.RESULT_ERROR_NULL_PDU :
+					result = "No PDU defined";
+					break;
+				case SmsManager.RESULT_ERROR_NO_SERVICE :
+					result = "No service";
+					break;
 			}
 
 			myToast.showToast(result);
@@ -359,27 +372,27 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 		MyLog.iLog("onOptionsItemSelected: " + item);
 
 		switch (item.getItemId()) {
-		case android.R.id.home:
-			getActivity().onBackPressed();
-			return true;
+			case android.R.id.home :
+				getActivity().onBackPressed();
+				return true;
 
-		case R.id.action_delete_sms:
-			optionSeleted = OPTION_DELETE;
-			makeDeleteSms();
-			return true;
+			case R.id.action_delete_sms :
+				optionSeleted = OPTION_DELETE;
+				makeDeleteSms();
+				return true;
 
-		case R.id.action_mark_as_not_spam:
-			optionSeleted = OPTION_MARK_NOT_SPAM;
-			makeMarkNotSpamSms();
-			return true;
+			case R.id.action_mark_as_not_spam :
+				optionSeleted = OPTION_MARK_NOT_SPAM;
+				makeMarkNotSpamSms();
+				return true;
 
-		case R.id.action_mark_as_spam:
-			optionSeleted = OPTION_MARK_SPAM;
-			makeMarkSpamSms();
-			return true;
+			case R.id.action_mark_as_spam :
+				optionSeleted = OPTION_MARK_SPAM;
+				makeMarkSpamSms();
+				return true;
 
-		default:
-			return super.onOptionsItemSelected(item);
+			default :
+				return super.onOptionsItemSelected(item);
 		}
 	}
 
@@ -440,6 +453,9 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 		loadListView();
 	}
 
+	/**
+	 * 
+	 */
 	private ActionMode.Callback mActionModeCallback = new ActionMode.Callback() {
 
 		// Called when the action mode is created; startActionMode() was called
@@ -463,29 +479,29 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 
 			switch (optionSeleted) {
 
-			case OPTION_DELETE:
-				menu.findItem(R.id.action_delete).setVisible(true);
-				break;
+				case OPTION_DELETE :
+					menu.findItem(R.id.action_delete).setVisible(true);
+					break;
 
-			case OPTION_MARK_SPAM:
-				menu.findItem(R.id.action_spam).setVisible(true);
-				break;
-
-			case OPTION_MARK_NOT_SPAM:
-				menu.findItem(R.id.action_not_spam).setVisible(true);
-				break;
-
-			case OPTION_NONE:
-				menu.findItem(R.id.action_delete).setVisible(true);
-				if (isSpamBox) {
-					menu.findItem(R.id.action_not_spam).setVisible(true);
-				} else {
+				case OPTION_MARK_SPAM :
 					menu.findItem(R.id.action_spam).setVisible(true);
-				}
-				break;
+					break;
 
-			default:
-				break;
+				case OPTION_MARK_NOT_SPAM :
+					menu.findItem(R.id.action_not_spam).setVisible(true);
+					break;
+
+				case OPTION_NONE :
+					menu.findItem(R.id.action_delete).setVisible(true);
+					if (isSpamBox) {
+						menu.findItem(R.id.action_not_spam).setVisible(true);
+					} else {
+						menu.findItem(R.id.action_spam).setVisible(true);
+					}
+					break;
+
+				default :
+					break;
 			}
 
 			return false; // Return false if nothing is done
@@ -496,24 +512,24 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 		public boolean onActionItemClicked(ActionMode mode, MenuItem item) {
 			switch (item.getItemId()) {
 
-			case R.id.action_all:
-				mAdapter.selecteAll();
-				updateSelected();
-				return true;
+				case R.id.action_all :
+					mAdapter.selecteAll();
+					updateSelected();
+					return true;
 
-			case R.id.action_delete:
-				deleteSms();
-				return true;
+				case R.id.action_delete :
+					deleteSms();
+					return true;
 
-			case R.id.action_spam:
-				makeSpam();
-				return true;
+				case R.id.action_spam :
+					makeSpam();
+					return true;
 
-			case R.id.action_not_spam:
-				makeNotSpam();
-				return true;
-			default:
-				return false;
+				case R.id.action_not_spam :
+					makeNotSpam();
+					return true;
+				default :
+					return false;
 			}
 		}
 

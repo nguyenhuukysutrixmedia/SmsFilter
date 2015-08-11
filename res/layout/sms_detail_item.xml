@@ -7,6 +7,8 @@
         android:id="@+id/layout_root_item"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/sms_detail_item_margin_left_right_default"
+        android:layout_marginRight="@dimen/sms_detail_item_margin_left_right_default"
         android:background="@drawable/shape_sms_detail"
         android:baselineAligned="false"
         android:orientation="horizontal"

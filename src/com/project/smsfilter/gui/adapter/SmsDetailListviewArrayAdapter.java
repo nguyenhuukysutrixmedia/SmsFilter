@@ -94,16 +94,15 @@ public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> im
 
 		LinearLayout layout = viewHolder.layoutRootItem;
 		int marginLeftOrRight = mContext.getResources().getDimensionPixelSize(R.dimen.sms_detail_item_margin_right_or_left);
+		int marginDefault = mContext.getResources().getDimensionPixelSize(R.dimen.sms_detail_item_margin_left_right_default);
 		FrameLayout.LayoutParams lp = (LayoutParams) layout.getLayoutParams();
 		
 		if (MySMSUtils.isInbox(itemModel.getSmsModel().getType())) {
 			layout.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_inbox);
-			
-			lp.setMargins(lp.leftMargin, lp.topMargin, marginLeftOrRight, lp.bottomMargin);
+			lp.setMargins(marginDefault, lp.topMargin, marginLeftOrRight, lp.bottomMargin);
 		} else {
 			layout.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_outbox);
-			lp.setMargins(marginLeftOrRight, lp.topMargin, lp.rightMargin, lp.bottomMargin);
-			
+			lp.setMargins(marginLeftOrRight, lp.topMargin, marginDefault, lp.bottomMargin);
 		}
 		layout.setLayoutParams(lp);
 	}
