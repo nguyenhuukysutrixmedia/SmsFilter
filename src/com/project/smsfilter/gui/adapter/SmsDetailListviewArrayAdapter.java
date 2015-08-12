@@ -52,6 +52,7 @@ public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> im
 			// viewHolder.cbSelection = (CheckBox) v.findViewById(R.id.cb_selection);
 			viewHolder.tvContent = (TextView) v.findViewById(R.id.tv_content);
 			viewHolder.tvDate = (TextView) v.findViewById(R.id.tv_date);
+			viewHolder.layoutSending = (LinearLayout) v.findViewById(R.id.layout_sending);
 			// viewHolder.layoutCheckBox = (FrameLayout) v.findViewById(R.id.layout_checkbox);
 
 			v.setTag(viewHolder);
@@ -78,7 +79,7 @@ public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> im
 				// viewHolder.layoutCheckBox.setVisibility(View.VISIBLE);
 				// viewHolder.cbSelection.setChecked(itemModel.isChecked());
 			} else {
-				checkInboxOutbox(itemModel, viewHolder);
+				checkSmsType(itemModel, viewHolder);
 				// viewHolder.layoutCheckBox.setVisibility(View.GONE);
 				// viewHolder.cbSelection.setChecked(false);
 			}
@@ -90,13 +91,23 @@ public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> im
 		return v;
 	}
 
-	private void checkInboxOutbox(final SmsItemModel itemModel, final ViewHolder viewHolder) {
+	private void checkSmsType(final SmsItemModel itemModel, final ViewHolder viewHolder) {
+
+		if (itemModel.getSmsModel().getType() == MESSAGE_TYPE_OUTBOX) {
+			viewHolder.layoutSending.setVisibility(View.VISIBLE);
+			viewHolder.tvDate.setVisibility(View.GONE);
+		} else {
+			viewHolder.layoutSending.setVisibility(View.GONE);
+			viewHolder.tvDate.setVisibility(View.VISIBLE);
+		}
 
 		LinearLayout layout = viewHolder.layoutRootItem;
-		int marginLeftOrRight = mContext.getResources().getDimensionPixelSize(R.dimen.sms_detail_item_margin_right_or_left);
-		int marginDefault = mContext.getResources().getDimensionPixelSize(R.dimen.sms_detail_item_margin_left_right_default);
+		int marginLeftOrRight = mContext.getResources().getDimensionPixelSize(
+				R.dimen.sms_detail_item_margin_right_or_left);
+		int marginDefault = mContext.getResources().getDimensionPixelSize(
+				R.dimen.sms_detail_item_margin_left_right_default);
 		FrameLayout.LayoutParams lp = (LayoutParams) layout.getLayoutParams();
-		
+
 		if (MySMSUtils.isInbox(itemModel.getSmsModel().getType())) {
 			layout.setBackgroundResource(R.drawable.shape_sms_detail_not_selected_inbox);
 			lp.setMargins(marginDefault, lp.topMargin, marginLeftOrRight, lp.bottomMargin);
@@ -110,6 +121,7 @@ public class SmsDetailListviewArrayAdapter extends ArrayAdapter<SmsItemModel> im
 	class ViewHolder {
 
 		LinearLayout layoutRootItem;
+		LinearLayout layoutSending;
 		// FrameLayout layoutCheckBox;
 		TextView tvContent;
 		TextView tvDate;

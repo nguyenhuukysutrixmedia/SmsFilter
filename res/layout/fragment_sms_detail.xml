@@ -19,13 +19,16 @@
             android:id="@+id/lv_sms"
             android:layout_width="match_parent"
             android:layout_height="0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="2dp"
             android:layout_weight="1"
-            android:stackFromBottom="true"
-            android:animateLayoutChanges="true"
+            android:animateLayoutChanges="false"
             android:clickable="true"
             android:divider="@android:color/transparent"
-            android:dividerHeight="10dp"
-            android:longClickable="true" />
+            android:dividerHeight="8dp"
+            android:longClickable="true"
+            android:stackFromBottom="true"
+            android:transcriptMode="normal" />
 
         <LinearLayout
             android:id="@+id/layout_editor"
@@ -40,7 +43,7 @@
                 android:layout_height="wrap_content"
                 android:layout_margin="8dp"
                 android:layout_weight="1"
-                android:background="@android:color/white"
+                android:background="@drawable/editext_background"
                 android:gravity="top|left"
                 android:maxLines="4"
                 android:minLines="2"

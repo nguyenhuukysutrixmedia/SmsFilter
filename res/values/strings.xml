@@ -29,6 +29,7 @@
     <string name="phone_number">012345345</string>
     <string name="content">Ta la nhen la nhen giang to  bjnasf maskmf oas fas f</string>
     <string name="date">09/08</string>
+    <string name="sending">Sending</string>
 
     <!-- option button -->
     <string name="delete">Delete</string>

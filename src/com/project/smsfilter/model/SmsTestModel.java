@@ -35,7 +35,7 @@ public class SmsTestModel implements Serializable, SmsType {
 		phoneName = "";
 		createTime = 0;
 		content = "";
-		type = MESSAGE_TYPE_ALL;
+		type = MESSAGE_TYPE_UNKNOW;
 		state = "";
 		isSpam = false;
 		formatContent = "";

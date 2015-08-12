@@ -6,6 +6,7 @@ import java.util.Locale;
 
 import android.content.ContentResolver;
 import android.content.ContentUris;
+import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -237,4 +238,25 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 		return false;
 	}
 
+	// public static void insertNewSmsINBOX(Context context, String phoneName, String message, long type) {
+	// ContentValues values = new ContentValues();
+	// values.put("address", phoneName);
+	// values.put("body", message);
+	// context.getContentResolver().insert(INBOX, values);
+	// }
+	
+	/**
+	 * 
+	 * @param context
+	 * @param phoneName
+	 * @param message
+	 * @param type
+	 */
+	public static void insertNewSms(Context context, String phoneName, String message, long type) {
+		ContentValues values = new ContentValues();
+		values.put(ADDRESS, phoneName);
+		values.put(BODY, message);
+		values.put(TYPE, type);
+		context.getContentResolver().insert(ALL, values);
+	}
 }

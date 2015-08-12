@@ -33,7 +33,7 @@ public class SMSModel implements Serializable, SmsType {
 		phoneNumber = "";
 		createTime = new Date();
 		content = "";
-		type = MESSAGE_TYPE_ALL;
+		type = MESSAGE_TYPE_UNKNOW;
 		state = "";
 		isSpam = false;
 		formatContent = "";

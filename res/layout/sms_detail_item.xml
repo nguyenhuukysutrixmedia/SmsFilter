@@ -12,12 +12,12 @@
         android:background="@drawable/shape_sms_detail"
         android:baselineAligned="false"
         android:orientation="horizontal"
-        android:padding="5dp" >
+        android:padding="4dp" >
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="match_parent"
-            android:layout_margin="10dp"
+            android:layout_margin="4dp"
             android:layout_weight="1"
             android:orientation="vertical" >
 
@@ -28,14 +28,39 @@
                 android:layout_height="wrap_content"
                 android:text="@string/content" />
 
-            <TextView
-                android:id="@+id/tv_date"
-                style="@style/TextViewStyleSmallSize2"
+            <FrameLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="right"
-                android:layout_marginTop="7dp"
-                android:text="@string/date" />
+                android:layout_marginTop="7dp" >
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    style="@style/TextViewStyleSmallSize2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/date"
+                    android:visibility="gone" />
+
+                <LinearLayout
+                    android:id="@+id/layout_sending"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:visibility="visible" >
+
+                    <TextView
+                        style="@style/TextViewStyleSmallSize2"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="4dp"
+                        android:text="@string/sending" />
+
+                    <ProgressBar
+                        style="@android:style/Widget.ProgressBar.Small"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content" />
+                </LinearLayout>
+            </FrameLayout>
         </LinearLayout>
 
         <FrameLayout

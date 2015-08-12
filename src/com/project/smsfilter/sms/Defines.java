@@ -33,6 +33,7 @@ public class Defines {
 	}
 
 	public static interface SmsType {
+		public static final int MESSAGE_TYPE_UNKNOW = -1;
 		public static final int MESSAGE_TYPE_ALL = 0;
 		public static final int MESSAGE_TYPE_INBOX = 1;
 		public static final int MESSAGE_TYPE_SENT = 2;
