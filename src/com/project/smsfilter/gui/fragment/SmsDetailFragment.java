@@ -282,7 +282,7 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 
 		try {
 
-			MySMSUtils.insertNewSms(mContext, phoneNo, msg, MESSAGE_TYPE_OUTBOX);
+			//MySMSUtils.insertNewSms(mContext, mPhoneName, msg, MESSAGE_TYPE_OUTBOX);
 
 			String SENT = "sent";
 			String DELIVERED = "delivered";

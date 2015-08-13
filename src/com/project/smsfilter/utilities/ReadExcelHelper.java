@@ -33,10 +33,14 @@ public class ReadExcelHelper {
 
 			// Iterate through each rows from first sheet
 			Iterator<Row> rowIterator = worksheet.iterator();
+			// for title
+			if (rowIterator.hasNext())
+				rowIterator.next();
+			//
 			while (rowIterator.hasNext()) {
 				Row row = rowIterator.next();
 				try {
-
+					
 					SMSModel model = new SMSModel();
 					Cell cellID = row.getCell(0);
 					Cell cellContent = row.getCell(1);
