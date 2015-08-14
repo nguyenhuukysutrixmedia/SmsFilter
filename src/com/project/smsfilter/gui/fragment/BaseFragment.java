@@ -24,6 +24,7 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	protected Context mContext;
 	protected MyToast mMyToast;
 	protected BroadcastReceiver mIncomingSmsReceiver;
+	protected boolean isNeedReloadData;
 
 	@Override
 	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -119,4 +120,10 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 	}
+
+	public void setNeedReloadData(boolean isNeedReloadData) {
+		this.isNeedReloadData = isNeedReloadData;
+	}
+	
+	
 }

@@ -161,6 +161,13 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 				intent = new Intent(mContext, MainActivity.class);
 				intent.putExtra(TYPE_BOX, true);
 				startActivity(intent);
+				try {
+					BaseFragment myFragment = (BaseFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+					if (myFragment != null && myFragment.isVisible()) {
+					   myFragment.setNeedReloadData(true);
+					}
+				} catch (Exception e) {
+				}
 				return true;
 				
 			case R.id.action_setting :

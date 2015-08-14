@@ -12,6 +12,7 @@ import android.telephony.SmsMessage;
 import com.project.smsfilter.sms.Defines.SmsUri;
 import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyLog;
+import com.project.smsfilter.utilities.MyNotificationHelper;
 import com.project.smsfilter.utilities.MyUtils;
 
 public class IncomingSmsReceiver extends BroadcastReceiver implements SmsUri {
@@ -60,9 +61,9 @@ public class IncomingSmsReceiver extends BroadcastReceiver implements SmsUri {
 							}
 						}
 
-						if (uri != null) {
-							new NewSmsTask(context, currentMessage, uri).execute();
-						}
+						// if (uri != null) {
+						// new NewSmsTask(context, currentMessage, uri).execute();
+						// }
 
 						MyLog.iLog("IncomingSmsReceiver senderNum: " + phoneName + "; message: " + message);
 					} // end for loop

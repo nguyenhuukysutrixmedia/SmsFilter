@@ -149,9 +149,11 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 	public boolean checkExist(SmsTestModel model) {
 
-		mSqlWhereClause = String.format(" %s = '%s' and %s = '%s' and %s = '%d' ", SmsTestDefine.COL_PHONE_NUMBER,
-				model.getPhoneNumber(), SmsDefine.COL_CONTENT, model.getContent(), SmsDefine.COL_CREATE_TIME,
-				model.getCreateTime());
+		mSqlWhereClause = String.format(" %s = '%s' and %s = '%s' and %s = '%d' or %s = '%d' ", //
+				SmsTestDefine.COL_PHONE_NUMBER, model.getPhoneNumber(), //
+				SmsDefine.COL_CONTENT, model.getContent(), //
+				SmsDefine.COL_CREATE_TIME, model.getCreateTime(), //
+				SmsDefine.COL_ID, model.getId()); //
 		ArrayList<SmsTestModel> list = getByQuery();
 		return list.size() > 0;
 	}

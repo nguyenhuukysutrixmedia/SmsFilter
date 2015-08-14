@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -23,7 +22,6 @@ import com.project.smsfilter.gui.ConstantDefines;
 import com.project.smsfilter.gui.adapter.SmsListviewArrayAdapter;
 import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
-import com.project.smsfilter.utilities.MyLog;
 
 public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnItemClickListener, ConstantDefines {
 
@@ -35,7 +33,6 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 	private ListView mListViewSms;
 	private SmsListviewArrayAdapter mSmsArrayAdapter;
 	private ArrayList<SmsItemModel> listItemModels;
-	private boolean isNeedReloadData;
 
 	private SmsTestTableHelper mSmsTestTableHelper;
 
@@ -112,6 +109,7 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 	 */
 	private void loadListView() {
 
+		isNeedReloadData = false;
 		ArrayList<SmsTestModel> listSMS;
 		switch (mTypeBox) {
 			case INBOX_BOX :

@@ -53,7 +53,6 @@ public class NewSmsTask extends AsyncTask<Object, Integer, String> {
 			smsTestModel.setId(Long.parseLong(mNewSmsUri.getLastPathSegment()));
 		} catch (Exception e) {
 		}
-	
 
 		// load sms data
 		// ArrayList<SmsTestModel> listSmsModels = MySMSUtils.readSMSInbox(mContext);
@@ -78,10 +77,10 @@ public class NewSmsTask extends AsyncTask<Object, Integer, String> {
 			smsTestModel.setReviewed(true);
 			// smsTestTableHelper.update(model);
 			// }
-			MyNotificationHelper.sendSynchonizeNotification(mContext, smsTestModel);
+			 MyNotificationHelper.sendSynchonizeNotification(mContext, smsTestModel.getPhoneName(), smsTestModel.getContent());
 		}
 		MyLog.iLog("New sms coming: " + smsTestModel);
-		
+
 		if (!smsTestTableHelper.checkExist(smsTestModel))
 			smsTestTableHelper.insert(smsTestModel);
 

@@ -122,4 +122,17 @@ public class MyUtils {
 		}
 		return false;
 	}
+
+	/**
+	 * 
+	 * @return
+	 */
+	public static boolean isEmptyString(String str) {
+		if (str == null)
+			return true;
+		if (str.isEmpty())
+			return true;
+
+		return false;
+	}
 }

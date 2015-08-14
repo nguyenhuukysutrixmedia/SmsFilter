@@ -12,21 +12,26 @@ import com.project.smsfilter.model.SmsTestModel;
 import com.project.smsfilter.sms.MySMSUtils;
 
 public class CommonUtils {
-	
-	public static void reAnalyzeSms(Context context){
-		SmsTestTableHelper  smsTestTableHelper = new SmsTestTableHelper(context);
-		
+
+	public static void reAnalyzeSms(Context context) {
+		SmsTestTableHelper smsTestTableHelper = new SmsTestTableHelper(context);
+
 		// mSmsTestTableHelper.deleteAll();
 		ArrayList<SmsTestModel> listSmsModels = MySMSUtils.readAllSMS(context);
 		// if (listSmsModels.size() <= 0)
 		// CreateTestData.createTestSms(mContext);
 		for (SmsTestModel smsModel : listSmsModels) {
 			// MyLog.iLog("SMS:: " + smsModel.toString());
-			smsTestTableHelper.insert(smsModel);
+			if (!smsTestTableHelper.checkExist(smsModel)) {
+				smsTestTableHelper.insert(smsModel);
+				String phoneName = MyUtils.isEmptyString(smsModel.getPhoneName())
+						? smsModel.getPhoneNumber()
+						: smsModel.getPhoneName();
+				MyNotificationHelper.sendSynchonizeNotification(context, phoneName, smsModel.getContent());
+			}
 		}
 
 		BayesClassifierHelper bayesClassifierHelper = new BayesClassifierHelper(context);
 		bayesClassifierHelper.analyzeSms();
 	}
-
 }
