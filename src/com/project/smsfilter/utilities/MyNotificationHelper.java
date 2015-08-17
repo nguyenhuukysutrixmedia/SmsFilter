@@ -56,7 +56,7 @@ public class MyNotificationHelper {
 	// mNotificationManager.notify(SYNC_NOTIFICATION_ID, mBuilder.build());
 	// }
 
-	public static void sendSynchonizeNotification(Context context, String phoneName, String content) {
+	public static void sendNewSMSNotification(Context context, String phoneName, String content) {
 
 		Boolean isNotifi = MyPreferenceUtils.isNewSMSNotification(context);
 

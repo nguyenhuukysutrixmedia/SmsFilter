@@ -16,6 +16,7 @@ import android.widget.EditText;
 import com.project.smsfilter.R;
 import com.project.smsfilter.background.NewSmsTask;
 import com.project.smsfilter.gui.MainActivity;
+import com.project.smsfilter.sms.Defines;
 import com.project.smsfilter.utilities.MyToast;
 import com.project.smsfilter.utilities.MyUtils;
 
@@ -42,13 +43,18 @@ public class BaseFragment extends Fragment implements OnClickListener {
 	public void onResume() {
 		// MyDialog.resizeDialog(mContext);
 
-		getActivity().registerReceiver(mIncomingSmsReceiver, new IntentFilter(NewSmsTask.TAG));
+		getActivity().registerReceiver(mIncomingSmsReceiver, new IntentFilter(Defines.NEW_SMS_RECEIVER_TAG));
 		super.onResume();
 	}
 
 	@Override
-	public void onDestroy() {
+	public void onDestroyView() {
 		getActivity().unregisterReceiver(this.mIncomingSmsReceiver);
+		super.onDestroyView();
+	}
+	
+	@Override
+	public void onDestroy() {
 		super.onDestroy();
 	}
 

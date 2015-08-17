@@ -110,7 +110,7 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 	private void loadListView() {
 
 		isNeedReloadData = false;
-		ArrayList<SmsTestModel> listSMS;
+		ArrayList<SmsTestModel> listSMS = new ArrayList<SmsTestModel>();
 		switch (mTypeBox) {
 			case INBOX_BOX :
 				listSMS = mSmsTestTableHelper.getListNotSpam();
@@ -118,10 +118,6 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 
 			case SPAM_BOX :
 				listSMS = mSmsTestTableHelper.getListSpam();
-				break;
-
-			default :
-				listSMS = mSmsTestTableHelper.getAll();
 				break;
 		}
 

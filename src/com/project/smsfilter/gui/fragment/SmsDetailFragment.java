@@ -238,9 +238,10 @@ public class SmsDetailFragment extends BaseFragment implements OnClickListener, 
 	 */
 	private void loadListView() {
 
+		isNeedReloadData = false;
 		mSmsTestTableHelper = new SmsTestTableHelper(mContext);
 
-		ArrayList<SmsTestModel> listSms;
+		ArrayList<SmsTestModel> listSms = new ArrayList<SmsTestModel>();
 		if (isSpamBox) {
 			listSms = mSmsTestTableHelper.getListSpamByPhoneNumber(mPhoneNumber);
 		} else {

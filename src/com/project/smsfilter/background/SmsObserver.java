@@ -5,7 +5,6 @@ import java.util.Locale;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.database.ContentObserver;
 import android.os.Handler;
 
@@ -14,75 +13,93 @@ import com.project.smsfilter.BayesClassifier.BayesClassifierHelper;
 import com.project.smsfilter.BayesClassifier.Classifier;
 import com.project.smsfilter.database.SmsTestTableHelper;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.Defines;
 import com.project.smsfilter.sms.MySMSUtils;
-import com.project.smsfilter.utilities.CommonUtils;
 import com.project.smsfilter.utilities.MyLog;
 import com.project.smsfilter.utilities.MyNotificationHelper;
-import com.project.smsfilter.utilities.MyUtils;
 
 public class SmsObserver extends ContentObserver {
 
-	SharedPreferences trackMeData;
-	private Context c;
+	private SmsTestTableHelper mSmsTestTableHelper;
+	// private SharedPreferences trackMeData;
+	private Context mContext;
 
 	public SmsObserver(Handler handler, final Context c) {
 		super(handler);
-		trackMeData = c.getSharedPreferences("LockedSIM", 0);
-		this.c = c;
+		// trackMeData = c.getSharedPreferences("LockedSIM", 0);
+		this.mContext = c;
+		mSmsTestTableHelper = new SmsTestTableHelper(mContext);
 	}
 
 	@Override
 	public void onChange(boolean selfChange) {
 		super.onChange(selfChange);
-
 		MyLog.iLog("SMS changed");
-		CommonUtils.reAnalyzeSms(c);
-		// send broadcast update UI
-		Intent in = new Intent(NewSmsTask.TAG);
-		c.sendBroadcast(in);
-	}
-	
-	public static void reAnalyzeSms(Context context) {
-		
-		long startTime = System.currentTimeMillis();
-		SmsTestTableHelper mSmsTestTableHelper = new SmsTestTableHelper(context);
 
-		// mSmsTestTableHelper.deleteAll();
-		ArrayList<SmsTestModel> listSmsModels = MySMSUtils.readAllSMS(context);
-		ArrayList<SmsTestModel> listNewSMS;
-		// if (listSmsModels.size() <= 0)
-		// CreateTestData.createTestSms(mContext);
-		for (SmsTestModel smsModel : listSmsModels) {
-			// MyLog.iLog("SMS:: " + smsModel.toString());
-			if (!mSmsTestTableHelper.checkExist(smsModel)) {
-				mSmsTestTableHelper.insert(smsModel);
+		//
+		checkNewOrDeleteSms();
+
+		// CommonUtils.reAnalyzeSms(mContext);
+
+		// send broadcast update UI
+		Intent in = new Intent(Defines.NEW_SMS_RECEIVER_TAG);
+		mContext.sendBroadcast(in);
+	}
+
+	/**
+	 * 
+	 */
+	@SuppressWarnings("unchecked")
+	private void checkNewOrDeleteSms() {
+
+		long startTime = System.currentTimeMillis();
+		ArrayList<SmsTestModel> listSmsOnDevice = MySMSUtils.readAllSMS(mContext);
+		ArrayList<SmsTestModel> listSmsOnDB = mSmsTestTableHelper.getAll();
+
+		// check for new sms
+		for (SmsTestModel smsTestModel : listSmsOnDevice) {
+
+			if (!mSmsTestTableHelper.checkExist(smsTestModel)) {
+
+				analyzeNewSms(smsTestModel);
+
+				// insert if not exist
+				mSmsTestTableHelper.insert(smsTestModel);
+			} 
+		}
+
+		// check for deleted sms
+		ArrayList<SmsTestModel> clone = (ArrayList<SmsTestModel>) listSmsOnDB.clone();
+		for (SmsTestModel smsTestModel : listSmsOnDB) {
+
+			if (!listSmsOnDevice.contains(smsTestModel)) {
+				mSmsTestTableHelper.delete(smsTestModel.getUid() + "");
+				clone.remove(smsTestModel);
 			}
 		}
+		listSmsOnDB = (ArrayList<SmsTestModel>) clone.clone();
 
-		
-		
-		// loadClassifierFromPrefe();
-		// if (MyApplication.mClassifier == null) {
-		listSmsModels = mSmsTestTableHelper.getListNeedFilter();
-		if (listSmsModels.size() > 0) {
-			if (MyApplication.mClassifier == null)
-				MyApplication.mClassifier = new Classifier();
-//			trainSms();
-//			filterSpamSms(listSmsModels);
+		MyLog.iLog(String.format(Locale.getDefault(), "SMS changed checkNewOrDeleteSms time: %d ms",
+				System.currentTimeMillis() - startTime));
+	}
+
+	/**
+	 * 
+	 */
+	public void analyzeNewSms(SmsTestModel smsTestModel) {
+
+		long startTime = System.currentTimeMillis();
+		BayesClassifierHelper bayesClassifierHelper = new BayesClassifierHelper(mContext);
+		if (bayesClassifierHelper.analyzeSms(smsTestModel).isSpam()) {
+			smsTestModel.setSpam(true);
+		} else {
+			smsTestModel.setSpam(false);
+			MyNotificationHelper.sendNewSMSNotification(mContext, smsTestModel.getPhoneName(),
+					smsTestModel.getContent());
 		}
-//		String phoneName = MyUtils.isEmptyString(smsModel.getPhoneName())
-//				? smsModel.getPhoneNumber()
-//				: smsModel.getPhoneName();
-//		MyNotificationHelper.sendSynchonizeNotification(context, phoneName, smsModel.getContent());
-		
-		// saveClassifierToPrefe();
-		// }
-
+		// smsTestModel.setReviewed(true);
 		MyLog.iLog(String.format(Locale.getDefault(), "BayesClassifierHelper analyze Sms time: %d ms",
 				System.currentTimeMillis() - startTime));
-		
-		BayesClassifierHelper bayesClassifierHelper = new BayesClassifierHelper(context);
-		bayesClassifierHelper.analyzeSms();
 	}
 
 }

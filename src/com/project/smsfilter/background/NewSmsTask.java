@@ -9,12 +9,13 @@ import android.telephony.SmsMessage;
 import com.project.smsfilter.BayesClassifier.BayesClassifierHelper;
 import com.project.smsfilter.database.SmsTestTableHelper;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.Defines;
 import com.project.smsfilter.utilities.MyLog;
 import com.project.smsfilter.utilities.MyNotificationHelper;
 
 public class NewSmsTask extends AsyncTask<Object, Integer, String> {
 
-	public static String TAG = "IncomingSmsReceiver";
+	// public static String TAG = "IncomingSmsReceiver";
 
 	private String mPhoneNumber;
 	private String mPhoneName;
@@ -77,7 +78,8 @@ public class NewSmsTask extends AsyncTask<Object, Integer, String> {
 			smsTestModel.setReviewed(true);
 			// smsTestTableHelper.update(model);
 			// }
-			 MyNotificationHelper.sendSynchonizeNotification(mContext, smsTestModel.getPhoneName(), smsTestModel.getContent());
+			MyNotificationHelper.sendNewSMSNotification(mContext, smsTestModel.getPhoneName(),
+					smsTestModel.getContent());
 		}
 		MyLog.iLog("New sms coming: " + smsTestModel);
 
@@ -85,7 +87,7 @@ public class NewSmsTask extends AsyncTask<Object, Integer, String> {
 			smsTestTableHelper.insert(smsTestModel);
 
 		// send broadcast update UI
-		Intent in = new Intent(TAG);
+		Intent in = new Intent(Defines.NEW_SMS_RECEIVER_TAG);
 		in.putExtra("phoneNumber", mPhoneNumber);
 		in.putExtra("phoneName", mPhoneName);
 		in.putExtra("message", mMessage);

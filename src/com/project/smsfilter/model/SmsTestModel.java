@@ -187,4 +187,20 @@ public class SmsTestModel implements Serializable, SmsType {
 		this.threadId = threadId;
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		try {
+			if (o instanceof SmsTestModel) {
+				SmsTestModel other = (SmsTestModel) o;
+				return (other.getId() == getId() //
+						|| other.getUid() == getUid() //
+						|| (other.getContent().equals(getContent()) //
+								&& other.getCreateTime() == getCreateTime() //
+								&& other.getPhoneNumber().equals(getPhoneName())));
+			}
+			return false;
+		} catch (Exception e) {
+			return false;
+		}
+	}
 }

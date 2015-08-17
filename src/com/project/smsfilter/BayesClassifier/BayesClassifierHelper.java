@@ -98,7 +98,7 @@ public class BayesClassifierHelper {
 			Map<String, Double> dicScores = MyApplication.mClassifier.classify(strPhrases);
 			double spamValue = dicScores.get(SPAM) == null ? 0 : dicScores.get(SPAM);
 			double normalValue = dicScores.get(NORMAL) == null ? 0 : dicScores.get(NORMAL);
-			if (spamValue > normalValue) {
+			if (Math.abs((spamValue)) > Math.abs(normalValue)) {
 				sms.setSpam(true);
 			} else {
 				sms.setSpam(false);
@@ -118,7 +118,7 @@ public class BayesClassifierHelper {
 		Map<String, Double> dicScores = MyApplication.mClassifier.classify(strPhrases);
 		double spamValue = dicScores.get(SPAM) == null ? 0 : dicScores.get(SPAM);
 		double normalValue = dicScores.get(NORMAL) == null ? 0 : dicScores.get(NORMAL);
-		if (spamValue > normalValue) {
+		if (Math.abs((spamValue)) > Math.abs(normalValue)) {
 			smsTestModel.setSpam(true);
 		} else {
 			smsTestModel.setSpam(false);
@@ -128,7 +128,6 @@ public class BayesClassifierHelper {
 				- startTime));
 		return smsTestModel;
 	}
-
 	// private void saveClassifierToFile() {
 	// try {
 	// long startTime = System.currentTimeMillis();

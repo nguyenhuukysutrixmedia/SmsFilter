@@ -74,7 +74,9 @@ public class SmsTestTableHelper extends BaseTableHelper<SmsTestModel, SmsTestDef
 
 	public boolean update(SmsTestModel model) {
 
-		mSqlWhereClause = String.format(SmsTestDefine.COL_UID + " = %d", model.getUid());
+		mSqlWhereClause = String.format(SmsTestDefine.COL_UID + " = %d or %s = %d ", //
+				model.getUid(), //
+				SmsTestDefine.COL_ID, model.getId());
 		return super.update(model);
 	}
 

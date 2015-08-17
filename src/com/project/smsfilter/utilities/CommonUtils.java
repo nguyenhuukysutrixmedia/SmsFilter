@@ -27,7 +27,7 @@ public class CommonUtils {
 				String phoneName = MyUtils.isEmptyString(smsModel.getPhoneName())
 						? smsModel.getPhoneNumber()
 						: smsModel.getPhoneName();
-				MyNotificationHelper.sendSynchonizeNotification(context, phoneName, smsModel.getContent());
+				MyNotificationHelper.sendNewSMSNotification(context, phoneName, smsModel.getContent());
 			}
 		}
 

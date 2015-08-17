@@ -3,6 +3,8 @@ package com.project.smsfilter.sms;
 import android.net.Uri;
 
 public class Defines {
+	
+	public static String NEW_SMS_RECEIVER_TAG = "NEW_SMS_RECEIVER_TAG";
 
 	public static interface SmsUri {
 		
