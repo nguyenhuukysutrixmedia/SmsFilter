@@ -22,6 +22,7 @@ import com.project.smsfilter.gui.ConstantDefines;
 import com.project.smsfilter.gui.adapter.SmsListviewArrayAdapter;
 import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.MySMSUtils;
 
 public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnItemClickListener, ConstantDefines {
 
@@ -120,6 +121,8 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 				listSMS = mSmsTestTableHelper.getListSpam();
 				break;
 		}
+		
+		listSMS = MySMSUtils.readAllSMSByThread(getActivity());
 
 		listItemModels = new ArrayList<SmsItemModel>();
 		for (int i = 0; i < listSMS.size(); i++) {

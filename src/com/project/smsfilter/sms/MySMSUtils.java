@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.provider.ContactsContract;
 import android.provider.ContactsContract.Contacts;
 import android.provider.ContactsContract.PhoneLookup;
+import android.util.Log;
 
 import com.project.smsfilter.model.SmsTestModel;
 import com.project.smsfilter.sms.Defines.SmsColumn;
@@ -85,7 +86,7 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 
 				int type = c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE));
 				String phoneNumber = c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS));
-				if (!MyUtils.isEmptyString(phoneNumber))
+				if (!MyUtils.isEmptyString(phoneNumber)) {
 					if (type != MESSAGE_TYPE_DRAFT) {
 						SmsTestModel sms = new SmsTestModel();
 						sms.setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
@@ -101,7 +102,7 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 
 						listSMS.add(sms);
 					}
-
+				}
 				c.moveToNext();
 			}
 		}
@@ -111,6 +112,61 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 		return listSMS;
 	}
 
+	/**
+	 * 
+	 * @param activity
+	 * @return
+	 */
+	public static ArrayList<SmsTestModel> readAllSMSByThread(Context context) {
+
+		long startTime = System.currentTimeMillis();
+		ArrayList<SmsTestModel> listSMS = new ArrayList<SmsTestModel>();
+		ContentResolver contentResolver = context.getContentResolver();
+		Cursor c = contentResolver.query(ALL, null, null, null, null);
+		// Cursor c = contentResolver.query(Uri.parse("content://mms-sms/conversations"), null, null, null,
+		// "date desc");
+		// activity.startManagingCursor(c);
+
+		// Read the sms data and store it in the list
+
+		if (c.moveToFirst()) {
+
+			for (int i = 0; i < c.getCount(); i++) {
+
+				// { "_id", "thread_id", "address", "person", "date", "body", "type" }
+
+				int type = c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE));
+				String phoneNumber = c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS));
+				if (!MyUtils.isEmptyString(phoneNumber)) {
+					String list[] = c.getColumnNames();
+					for (int ii = 0; ii < c.getColumnCount(); ii++) {
+						if (c.getString(ii) != null)
+							Log.d(c.getColumnName(ii) + "", c.getString(ii) + "");
+					}
+					if (type != MESSAGE_TYPE_DRAFT) {
+						SmsTestModel sms = new SmsTestModel(c);
+						// sms.setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
+						// sms.setPhoneNumber(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS)));
+						sms.setPhoneName(getContactName(contentResolver, sms.getPhoneNumber()));
+						// sms.setId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn._ID)));
+						// sms.setThreadId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn.THREAD_ID)));
+						// sms.setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.DATE))));
+						// sms.setState(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.STATUS)));
+						// sms.setType(type);
+
+						MyLog.iLog("sms: " + sms);
+
+						listSMS.add(sms);
+					}
+				}
+				c.moveToNext();
+			}
+		}
+		c.close();
+		MyLog.iLog(String.format(Locale.getDefault(), "Read SMS Inbox size: %d - time: %d ms", listSMS.size(),
+				System.currentTimeMillis() - startTime));
+		return listSMS;
+	}
 	public static String getContactName(ContentResolver cr, String phoneNumber) {
 
 		String contactName = null;

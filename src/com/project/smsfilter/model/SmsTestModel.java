@@ -7,7 +7,10 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import android.database.Cursor;
+
 import com.project.smsfilter.sms.Defines.SmsType;
+import com.project.smsfilter.sms.Defines;
 import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyConstants;
 
@@ -40,6 +43,17 @@ public class SmsTestModel implements Serializable, SmsType {
 		isSpam = false;
 		formatContent = "";
 		isReviewed = false;
+	}
+
+	public SmsTestModel(Cursor c) {
+		this();
+		setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
+		setPhoneNumber(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS)));
+		setId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn._ID)));
+		setThreadId(c.getLong(c.getColumnIndexOrThrow(Defines.SmsColumn.THREAD_ID)));
+		setCreateTime(Long.parseLong(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.DATE))));
+		setState(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.STATUS)));
+		setType(type);
 	}
 
 	@Override
@@ -194,9 +208,9 @@ public class SmsTestModel implements Serializable, SmsType {
 				SmsTestModel other = (SmsTestModel) o;
 				return (other.getId() == getId() //
 						|| other.getUid() == getUid() //
-						|| (other.getContent().equals(getContent()) //
-								&& other.getCreateTime() == getCreateTime() //
-								&& other.getPhoneNumber().equals(getPhoneName())));
+				|| (other.getContent().equals(getContent()) //
+						&& other.getCreateTime() == getCreateTime() //
+				&& other.getPhoneNumber().equals(getPhoneName())));
 			}
 			return false;
 		} catch (Exception e) {

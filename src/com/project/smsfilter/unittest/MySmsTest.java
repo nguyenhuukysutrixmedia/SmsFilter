@@ -12,18 +12,22 @@ public class MySmsTest extends AndroidTestCase {
 
 	public void setUp() {
 
+	}
 
+	public void testGetSmsData() {
+
+		MySMSUtils.readAllSMSByThread(mContext);
 	}
 
 	public void testSmsTestTable() {
-		
+
 		ArrayList<SmsTestModel> listSmsTest = MySMSUtils.readAllSMS(mContext);
-		MyLog.iLog("SMS: size: " + listSmsTest.size());	
+		MyLog.iLog("SMS: size: " + listSmsTest.size());
 		for (SmsTestModel smsTestModel : listSmsTest) {
-//			MyLog.iLog("SMS: " + smsTestModel);	
+			// MyLog.iLog("SMS: " + smsTestModel);
 		}
-//		assertEquals(listSmsTest.size(), );
-		
+		// assertEquals(listSmsTest.size(), );
+
 	}
 
 	public void tearDown() throws Exception {
