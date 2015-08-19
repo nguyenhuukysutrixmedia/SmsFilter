@@ -46,28 +46,6 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 		mTypeBox = typeBox;
 	}
 
-	public void setTypeBox(int typeBox) {
-		mTypeBox = typeBox;
-	}
-
-	public void setToSpamBox() {
-		mTypeBox = SPAM_BOX;
-		loadListView();
-	}
-
-	@Override
-	public void onResume() {
-		if (isNeedReloadData)
-			loadListView();
-		super.onResume();
-	}
-
-	@Override
-	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
-		// TODO Auto-generated method stub
-		super.onActivityCreated(savedInstanceState);
-	}
-
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.fragment_sms_box, container, false);
@@ -78,6 +56,11 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 		initView(v);
 
 		return v;
+	}
+
+	@Override
+	public void onActivityCreated(@Nullable Bundle savedInstanceState) {
+		super.onActivityCreated(savedInstanceState);
 	}
 
 	private void initView(View v) {
@@ -105,6 +88,22 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 		};
 	}
 
+	public void setTypeBox(int typeBox) {
+		mTypeBox = typeBox;
+	}
+
+	public void setToSpamBox() {
+		mTypeBox = SPAM_BOX;
+		loadListView();
+	}
+
+	@Override
+	public void onResume() {
+		if (isNeedReloadData)
+			loadListView();
+		super.onResume();
+	}
+
 	/**
 	 * 
 	 */
@@ -121,7 +120,7 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 				listSMS = mSmsTestTableHelper.getListSpam();
 				break;
 		}
-		
+
 		listSMS = MySMSUtils.readAllSMSByThread(getActivity());
 
 		listItemModels = new ArrayList<SmsItemModel>();

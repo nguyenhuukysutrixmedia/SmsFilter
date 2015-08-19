@@ -1,6 +1,7 @@
 package com.project.smsfilter.gui;
 
 import android.annotation.SuppressLint;
+import android.app.ActionBar;
 import android.content.ContentResolver;
 import android.content.Context;
 import android.content.Intent;
@@ -104,12 +105,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 	}
 
 	private void initActionBar() {
+
+		ActionBar actionBar = getActionBar();
 		if (isSpamBox) {
 			setTitle(getString(R.string.title_activity_spam));
-			getActionBar().setDisplayHomeAsUpEnabled(true);
-			getActionBar().setBackgroundDrawable(new ColorDrawable(0xAAFF0000));
+			actionBar.setDisplayHomeAsUpEnabled(true);
+			actionBar.setBackgroundDrawable(new ColorDrawable(0xAAFF0000));
 		} else {
-			getActionBar().setBackgroundDrawable(null);
+			actionBar.setBackgroundDrawable(null);
 		}
 	}
 
@@ -162,24 +165,25 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 				intent.putExtra(TYPE_BOX, true);
 				startActivity(intent);
 				try {
-					BaseFragment myFragment = (BaseFragment)getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+					BaseFragment myFragment = (BaseFragment) getSupportFragmentManager().findFragmentById(
+							R.id.fragment_container);
 					if (myFragment != null && myFragment.isVisible()) {
-					   myFragment.setNeedReloadData(true);
+						myFragment.setNeedReloadData(true);
 					}
 				} catch (Exception e) {
 				}
 				return true;
-				
+
 			case R.id.action_setting :
 				intent = new Intent(mContext, SettingActivity.class);
 				startActivity(intent);
 				return true;
-				
+
 			case R.id.action_new_sms :
 				intent = new Intent(mContext, NewSmsActivity.class);
 				startActivity(intent);
 				return true;
-				
+
 			case android.R.id.home :
 				onBackPressed();
 				return true;
@@ -245,14 +249,14 @@ public class MainActivity extends FragmentActivity implements OnClickListener, C
 		}
 		super.onConfigurationChanged(newConfig);
 	}
-	
+
 	public static void InitializeObserver(Context c) {
-	    try {
-	        ContentResolver contentResolver = c.getContentResolver();
-	        Handler mSmsObserverHandler = new Handler(Looper.getMainLooper());
-	        SmsObserver mSmsObserver = new SmsObserver(mSmsObserverHandler, c);
-	        contentResolver.registerContentObserver(Uri.parse("content://sms/"), true, mSmsObserver);
-	    } catch (Exception e) {
-	    }
+		try {
+			ContentResolver contentResolver = c.getContentResolver();
+			Handler mSmsObserverHandler = new Handler(Looper.getMainLooper());
+			SmsObserver mSmsObserver = new SmsObserver(mSmsObserverHandler, c);
+			contentResolver.registerContentObserver(Uri.parse("content://sms/"), true, mSmsObserver);
+		} catch (Exception e) {
+		}
 	}
 }

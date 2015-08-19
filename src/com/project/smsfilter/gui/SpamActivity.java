@@ -132,12 +132,12 @@ public class SpamActivity extends FragmentActivity implements OnClickListener, C
 	 * 
 	 * @param phoneNumber
 	 */
-	private void gotoSmsDetail(String phoneNumber) {
-		Intent intent = new Intent(mContext, SMSDetailActivity.class);
-		intent.putExtra(PHONE_NUMBER, phoneNumber);
-		intent.putExtra(IS_SPAM_BOX, false);
-
-		startActivity(intent);
-	}
+//	private void gotoSmsDetail(String phoneNumber) {
+//		Intent intent = new Intent(mContext, SMSDetailActivity.class);
+//		intent.putExtra(PHONE_NUMBER, phoneNumber);
+//		intent.putExtra(IS_SPAM_BOX, false);
+//
+//		startActivity(intent);
+//	}
 
 }

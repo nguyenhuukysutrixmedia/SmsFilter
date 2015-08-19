@@ -21,6 +21,7 @@ import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
 import com.project.smsfilter.sms.MySMSUtils;
 import com.project.smsfilter.utilities.MyConstants;
+import com.project.smsfilter.utilities.MyLog;
 
 public class SmsListviewArrayAdapter extends ArrayAdapter<SmsItemModel> {
 
@@ -69,53 +70,13 @@ public class SmsListviewArrayAdapter extends ArrayAdapter<SmsItemModel> {
 		final SmsItemModel itemModel = mObjects.get(position);
 		if (itemModel != null) {
 
-			// OnClickListener onClickListener = new OnClickListener() {
-			// @Override
-			// public void onClick(View arg0) {
-			// if (blockedMutilClick) {
-			// return;
-			// }
-			// blockedMutilClick = true;
-			// new Handler().postDelayed(new Runnable() {
-			// @Override
-			// public void run() {
-			// blockedMutilClick = false;
-			// }
-			// }, 100);
-			//
-			// viewHolder.cbSelection.setChecked(!viewHolder.cbSelection.isChecked());
-			// mObjects.get(position).setChecked(viewHolder.cbSelection.isChecked());
-			// }
-			// };
-
-			SmsTestModel smsModel = itemModel.getSmsModel();
+			final SmsTestModel smsModel = itemModel.getSmsModel();
 			if (isEditAble) {
 				viewHolder.cbSelection.setVisibility(View.VISIBLE);
 				viewHolder.cbSelection.setChecked(itemModel.isChecked());
-				// viewHolder.cbSelection.setOnCheckedChangeListener(new OnCheckedChangeListener() {
-				// @Override
-				// public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-				// mObjects.get(position).setChecked(viewHolder.cbSelection.isChecked());
-				// }
-				// });
-
-				// viewHolder.cbSelection.setOnClickListener(onClickListener);
-
 			} else {
 				viewHolder.cbSelection.setVisibility(View.GONE);
 			}
-
-			// event for root item
-			// viewHolder.layoutRootItem.setOnClickListener(onClickListener);
-
-			// viewHolder.layoutRootItem.setOnLongClickListener(new OnLongClickListener() {
-			// @Override
-			// public boolean onLongClick(View arg0) {
-			// isEditAble = true;
-			// setSelected(position);
-			// return false;
-			// }
-			// });
 
 			viewHolder.tvContent.setText(smsModel.getContent());
 			viewHolder.tvDate.setText(smsModel.getCreateTimeString(MyConstants.DATE_SHORT_FORMAT));
@@ -126,10 +87,12 @@ public class SmsListviewArrayAdapter extends ArrayAdapter<SmsItemModel> {
 			viewHolder.tvPhoneNumber.setText(phone);
 
 			Bitmap bm = MySMSUtils.fetchThumbnail(mContext, smsModel.getPhoneNumber());
+			MyLog.iLog("getPhoneNumber: " + smsModel.getPhoneNumber() );
 			if (bm != null) {
+				MyLog.iLog("Bitmap: " + bm );
 				viewHolder.imgContactIcon.setImageBitmap(bm);
 			} else {
-				viewHolder.imgContactIcon.setBackgroundResource(R.drawable.ic_contact_picture);
+				viewHolder.imgContactIcon.setImageResource(R.drawable.ic_contact_picture);
 			}
 		}
 

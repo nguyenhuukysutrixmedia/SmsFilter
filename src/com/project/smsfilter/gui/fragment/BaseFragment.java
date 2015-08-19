@@ -14,7 +14,6 @@ import android.view.View.OnClickListener;
 import android.widget.EditText;
 
 import com.project.smsfilter.R;
-import com.project.smsfilter.background.NewSmsTask;
 import com.project.smsfilter.gui.MainActivity;
 import com.project.smsfilter.sms.Defines;
 import com.project.smsfilter.utilities.MyToast;

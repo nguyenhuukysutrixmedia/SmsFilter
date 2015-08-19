@@ -122,9 +122,8 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 		long startTime = System.currentTimeMillis();
 		ArrayList<SmsTestModel> listSMS = new ArrayList<SmsTestModel>();
 		ContentResolver contentResolver = context.getContentResolver();
-		Cursor c = contentResolver.query(ALL, null, null, null, null);
-		// Cursor c = contentResolver.query(Uri.parse("content://mms-sms/conversations"), null, null, null,
-		// "date desc");
+		// Cursor c = contentResolver.query(ALL, null, null, null, "date desc");
+		Cursor c = contentResolver.query(Uri.parse("content://mms-sms/conversations"), null, null, null, "date desc");
 		// activity.startManagingCursor(c);
 
 		// Read the sms data and store it in the list
@@ -138,11 +137,11 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 				int type = c.getInt(c.getColumnIndexOrThrow(Defines.SmsColumn.TYPE));
 				String phoneNumber = c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.ADDRESS));
 				if (!MyUtils.isEmptyString(phoneNumber)) {
-					String list[] = c.getColumnNames();
-					for (int ii = 0; ii < c.getColumnCount(); ii++) {
-						if (c.getString(ii) != null)
-							Log.d(c.getColumnName(ii) + "", c.getString(ii) + "");
-					}
+					// String list[] = c.getColumnNames();
+					// for (int ii = 0; ii < c.getColumnCount(); ii++) {
+					// if (c.getString(ii) != null)
+					// Log.d(c.getColumnName(ii) + "", c.getString(ii) + "");
+					// }
 					if (type != MESSAGE_TYPE_DRAFT) {
 						SmsTestModel sms = new SmsTestModel(c);
 						// sms.setContent(c.getString(c.getColumnIndexOrThrow(Defines.SmsColumn.BODY)));
