@@ -22,6 +22,7 @@ import com.project.smsfilter.gui.ConstantDefines;
 import com.project.smsfilter.gui.adapter.SmsListviewArrayAdapter;
 import com.project.smsfilter.model.SmsItemModel;
 import com.project.smsfilter.model.SmsTestModel;
+import com.project.smsfilter.sms.LoadDataHelper;
 import com.project.smsfilter.sms.MySMSUtils;
 
 public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnItemClickListener, ConstantDefines {
@@ -112,16 +113,17 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 		isNeedReloadData = false;
 		ArrayList<SmsTestModel> listSMS = new ArrayList<SmsTestModel>();
 		switch (mTypeBox) {
-			case INBOX_BOX :
-				listSMS = mSmsTestTableHelper.getListNotSpam();
-				break;
+		case INBOX_BOX:
+			// listSMS = mSmsTestTableHelper.getListNotSpam();
+			listSMS = LoadDataHelper.loadSMSByThreadNotSpam(getActivity());
+			break;
 
-			case SPAM_BOX :
-				listSMS = mSmsTestTableHelper.getListSpam();
-				break;
+		case SPAM_BOX:
+			listSMS = mSmsTestTableHelper.getListSpam();
+			break;
 		}
 
-		listSMS = MySMSUtils.readAllSMSByThread(getActivity());
+		// listSMS = MySMSUtils.readAllSMSByThread(getActivity());
 
 		listItemModels = new ArrayList<SmsItemModel>();
 		for (int i = 0; i < listSMS.size(); i++) {
@@ -137,16 +139,16 @@ public class SmsBoxFragment extends BaseFragment implements OnClickListener, OnI
 	@Override
 	public void onClick(View v) {
 		switch (v.getId()) {
-			case R.id.btn_delete :
+		case R.id.btn_delete:
 
-				break;
+			break;
 
-			case R.id.btn_move :
+		case R.id.btn_move:
 
-				break;
+			break;
 
-			default :
-				break;
+		default:
+			break;
 		}
 	}
 

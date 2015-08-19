@@ -166,13 +166,14 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 				System.currentTimeMillis() - startTime));
 		return listSMS;
 	}
+
 	public static String getContactName(ContentResolver cr, String phoneNumber) {
 
 		String contactName = null;
 		try {
 
 			Uri uri = Uri.withAppendedPath(PhoneLookup.CONTENT_FILTER_URI, Uri.encode(phoneNumber));
-			Cursor cursor = cr.query(uri, new String[]{PhoneLookup.DISPLAY_NAME}, null, null, null);
+			Cursor cursor = cr.query(uri, new String[] { PhoneLookup.DISPLAY_NAME }, null, null, null);
 			if (cursor == null) {
 				return null;
 			}
@@ -188,33 +189,39 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 		return contactName;
 	}
 
-	public static Drawable openPhoto(Context context, long contactId) {
-		Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
-		Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
-		Cursor cursor = context.getContentResolver().query(photoUri, new String[]{Contacts.Photo.PHOTO}, null, null,
-				null);
-		if (cursor == null) {
-			return null;
-		}
-		try {
-			if (cursor.moveToFirst()) {
-				byte[] data = cursor.getBlob(0);
-				if (data != null) {
-					// Bitmap bm = (new BitmapFactory()).decodeStream(new ByteArrayInputStream(data));
-					Drawable bm = new BitmapDrawable(context.getResources(), new ByteArrayInputStream(data));
-					return bm;
-				}
-			}
-		} finally {
-			cursor.close();
-		}
-		return null;
-	}
+	// public static Drawable openPhoto(Context context, long contactId) {
+	// Uri contactUri = ContentUris.withAppendedId(Contacts.CONTENT_URI, contactId);
+	// Uri photoUri = Uri.withAppendedPath(contactUri, Contacts.Photo.CONTENT_DIRECTORY);
+	// Cursor cursor = context.getContentResolver().query(photoUri, new String[]{Contacts.Photo.PHOTO}, null, null,
+	// null);
+	// if (cursor == null) {
+	// return null;
+	// }
+	// try {
+	// if (cursor.moveToFirst()) {
+	// byte[] data = cursor.getBlob(0);
+	// if (data != null) {
+	// // Bitmap bm = (new BitmapFactory()).decodeStream(new ByteArrayInputStream(data));
+	// Drawable bm = new BitmapDrawable(context.getResources(), new ByteArrayInputStream(data));
+	// return bm;
+	// }
+	// }
+	// } finally {
+	// cursor.close();
+	// }
+	// return null;
+	// }
 
+	/**
+	 * 
+	 * @param context
+	 * @param phoneNumber
+	 * @return
+	 */
 	public static Bitmap fetchThumbnail(Context context, String phoneNumber) {
 
-		final String[] PHOTO_ID_PROJECTION = new String[]{ContactsContract.Contacts.PHOTO_ID};
-		final String[] PHOTO_BITMAP_PROJECTION = new String[]{ContactsContract.CommonDataKinds.Photo.PHOTO};
+		final String[] PHOTO_ID_PROJECTION = new String[] { ContactsContract.Contacts.PHOTO_ID };
+		final String[] PHOTO_BITMAP_PROJECTION = new String[] { ContactsContract.CommonDataKinds.Photo.PHOTO };
 
 		ContentResolver contentResolver = context.getContentResolver();
 
@@ -258,10 +265,10 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 	 * @param context
 	 * @param model
 	 */
-	public static void deleteSms(Context context, SmsTestModel model) {
+	public static void deleteSms(Context context, long smsID) {
 
 		try {
-			context.getContentResolver().delete(Uri.parse("content://sms/" + model.getId()), null, null);
+			context.getContentResolver().delete(Uri.parse("content://sms/" + smsID), null, null);
 		} catch (Exception e) {
 			e.printStackTrace();
 			MyLog.eLog("Error deleting sms" + e);
@@ -285,13 +292,13 @@ public class MySMSUtils implements SmsUri, SmsColumn, SmsType {
 	public static boolean isAllOut(int smsType) {
 
 		switch (smsType) {
-			case MESSAGE_TYPE_OUTBOX :
-				// case MESSAGE_TYPE_QUEUED :
-				// case MESSAGE_TYPE_FAILED :
-			case MESSAGE_TYPE_SENT :
-				return true;
-			default :
-				break;
+		case MESSAGE_TYPE_OUTBOX:
+			// case MESSAGE_TYPE_QUEUED :
+			// case MESSAGE_TYPE_FAILED :
+		case MESSAGE_TYPE_SENT:
+			return true;
+		default:
+			break;
 		}
 		return false;
 	}
