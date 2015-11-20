@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.WindowAdapter;
@@ -9,13 +10,14 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 import javax.swing.BorderFactory;
-import javax.swing.Icon;
+import javax.swing.ButtonGroup;
 import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JRadioButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.SwingWorker;
@@ -32,6 +34,11 @@ public class SMSFilterServer {
 	private JTextArea textArea;
 	private JFileChooser fileChooser;
 	private File selectedFile;
+
+	JRadioButton rdSpam = new JRadioButton("Ham key");
+	JRadioButton rdHam = new JRadioButton("Spam key");
+
+	ButtonGroup group = new ButtonGroup();
 
 	/**
 	 * @param args
@@ -64,7 +71,7 @@ public class SMSFilterServer {
 
 		//
 		headerLabel = new JLabel("", JLabel.CENTER);
-		headerLabel.setText("Open the sms keyword file upload to server:");
+		headerLabel.setText("Open the keyword file upload to server:");
 		Border paddingBorder = BorderFactory.createEmptyBorder(10, 10, 10, 10);
 		headerLabel.setBorder(BorderFactory.createCompoundBorder(null, paddingBorder));
 		// headerLabel.setma
@@ -107,6 +114,17 @@ public class SMSFilterServer {
 		contentPanel.add(scroll, BorderLayout.CENTER);
 
 		//
+
+		JPanel panel = new JPanel();
+		panel.setLayout(new FlowLayout());
+
+		rdSpam.setSelected(true);
+		group.add(rdSpam);
+		group.add(rdHam);
+		panel.add(rdSpam);
+		panel.add(rdHam);
+
+		//
 		uploadButton = new JButton("Upload");
 		uploadButton.setEnabled(false);
 		uploadButton.setPreferredSize(new Dimension(100, 50));
@@ -115,15 +133,22 @@ public class SMSFilterServer {
 
 				if (selectedFile != null) {
 					uploadButton.setEnabled(false);
-					DeleteFileTask deleteFileTask = new DeleteFileTask();
-					deleteFileTask.execute();
+					// DeleteFileTask deleteFileTask = new DeleteFileTask();
+					// deleteFileTask.execute();
+
+					PostFileTask postFileTask = new PostFileTask();
+					postFileTask.execute();
 				} else {
-					JOptionPane.showMessageDialog(mainFrame, "Please select sms data file first!", "Error",
+					JOptionPane.showMessageDialog(mainFrame, "Please select data file first!", "Error",
 							JOptionPane.OK_OPTION);
 				}
 			}
 		});
-		contentPanel.add(uploadButton, BorderLayout.SOUTH);
+
+		panel.add(uploadButton);
+
+		contentPanel.add(panel, BorderLayout.SOUTH);
+		// contentPanel.add(uploadButton, BorderLayout.SOUTH);
 		contentPanel.setBorder(BorderFactory.createCompoundBorder(null, paddingBorder));
 
 		//
@@ -143,11 +168,20 @@ public class SMSFilterServer {
 	class PostFileTask extends SwingWorker<String, String> {
 
 		String response;
+		String fileName;
 
 		@Override
 		public String doInBackground() {
+
 			String bodyContent = readFile(selectedFile.getAbsolutePath());
-			response = ApiHelper.postFile(bodyContent);
+
+			if (rdSpam.isSelected()) {
+				fileName = ApiHelper.SPAM_FILE_NAME;
+			} else {
+				fileName = ApiHelper.HAM_FILE_NAME;
+			}
+			
+			response = ApiHelper.postFile(bodyContent, fileName);
 
 			return response;
 		}
@@ -156,24 +190,24 @@ public class SMSFilterServer {
 		protected void done() {
 			uploadButton.setEnabled(true);
 
-			if (response != null && response.trim().endsWith(ApiHelper.FILE_NAME)) {
+			if (response != null && response.trim().endsWith(fileName)) {
 				JOptionPane.showMessageDialog(mainFrame, "Data was uploaded successful!");
 			}
 		}
 	}
 
-	class DeleteFileTask extends SwingWorker<String, String> {
-
-		@Override
-		public String doInBackground() {
-			String response = ApiHelper.deleteFile();
-			return response;
-		}
-
-		@Override
-		protected void done() {
-			PostFileTask postFileTask = new PostFileTask();
-			postFileTask.execute();
-		}
-	}
+	// class DeleteFileTask extends SwingWorker<String, String> {
+	//
+	// @Override
+	// public String doInBackground() {
+	// String response = ApiHelper.deleteFile();
+	// return response;
+	// }
+	//
+	// @Override
+	// protected void done() {
+	// PostFileTask postFileTask = new PostFileTask();
+	// postFileTask.execute();
+	// }
+	// }
 }

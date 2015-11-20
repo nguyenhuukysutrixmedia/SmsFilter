@@ -17,21 +17,25 @@ public class ApiHelper {
 
 	private static final int TIME_OUT = 10 * 1000;
 
-	public static final String FILE_NAME = "sms_data.csv";
+	public static final String SPAM_FILE_NAME = "SpamKey.csv";
+	public static final String HAM_FILE_NAME = "HamKey.csv";
+
 	private static final String BASE_URL = "http://demo.janeto.com:21000/huuky/files/";
 
-	private static final String POST_URL = BASE_URL + FILE_NAME;
-	private static final String DELETE_URL = BASE_URL + FILE_NAME;
+	// private static final String SPAM_POST_URL = BASE_URL + SPAM_FILE_NAME;
+	// private static final String HAM_POST_URL = BASE_URL + SPAM_FILE_NAME;
+
+	private static final String DELETE_URL = BASE_URL + HAM_FILE_NAME;
 
 	private static final String DATA_TYPE = "application/text";
 
-	public static String postFile(String bodyContent) {
+	public static String postFile(String bodyContent, String filename) {
 
 		String responseString = "";
 		try {
 
 			HttpClient httpClient = getHttpClient();
-			HttpPost postRequest = new HttpPost(POST_URL);
+			HttpPost postRequest = new HttpPost(BASE_URL + filename);
 
 			StringEntity input = new StringEntity(bodyContent);
 			input.setContentType(DATA_TYPE);
